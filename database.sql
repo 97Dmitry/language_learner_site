@@ -10,5 +10,7 @@ create TABLE word(
     FOREIGN KEY (id) REFERENCES auth_user(id),
     learning_word VARCHAR(30),
     translation_verb VARCHAR(30),
-    translation_noun VARCHAR(30)
+    translation_noun VARCHAR(30),
+    general_translate VARCHAR(30),
+    knowledge INTEGER DEFAULT 0
 );
