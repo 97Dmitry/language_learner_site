@@ -7,10 +7,11 @@ create TABLE auth_user(
 
 create TABLE word(
     id SERIAL PRIMARY KEY,
-    FOREIGN KEY (id) REFERENCES auth_user(id),
+    user_id INTEGER,
+    FOREIGN KEY (user_id) REFERENCES auth_user (id),
     learning_word VARCHAR(30),
-    translation_verb VARCHAR(30),
-    translation_noun VARCHAR(30),
-    general_translate VARCHAR(30),
+    translation_verb text[],
+    translation_noun text[],
+    general_translate text[],
     knowledge INTEGER DEFAULT 0
 );
