@@ -1,0 +1,73 @@
+const db = require("../db")
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken")
+const {validationResult} = require("express-validator")
+
+class authController {
+  async registration(request, response) {
+    try {
+      const errors = validationResult(request)
+      if (!errors.isEmpty()) {
+        return response.status(400).json(errors)
+      }
+      const {username, user_password} = request.body
+      const candidate = await db.query(`SELECT username
+                                        FROM auth_user
+                                        where username = $1`, [username]);
+      if (candidate.rows.length) {
+        return response.status(400).json({message: `User with that name exists already`})
+      } else {
+        const hashPassword = bcrypt.hashSync(user_password, 7)
+        const newUser = await db.query(
+          `INSERT INTO auth_user (username, user_password)
+           VALUES ($1, $2)
+           RETURNING *`, [username, hashPassword]
+        );
+        return response.status(201).json({message: `You were registration`, user: newUser.rows})
+      }
+    } catch (e) {
+      console.log(e)
+      response.status(400).json({message: "Registration error"})
+    }
+  }
+
+  async authorization(request, response) {
+    try {
+      const {username, user_password} = request.body
+      const user = await db.query(`SELECT *
+                                        FROM auth_user
+                                        where username = $1`, [username]);
+      if (!user.rows.length) {
+        return response.status(404).json({message: `User ${username} not found`})
+      }
+      const checkPassword = bcrypt.compareSync(user_password, user.rows[0].user_password)
+      if (!checkPassword) {
+        return response.status(400).json({message: "Password isn't correct"})
+      }
+      const token = jwt.sign(
+        {id: user.rows[0].id}, process.env.SECRET_KEY, {expiresIn: "24h"}
+      )
+      return response.status(202).json({
+        token,
+        user: {
+          id: user.rows[0].id,
+          username: user.rows[0].username
+        }
+      })
+    } catch (e) {
+      console.log(e)
+      response.status(400).json({message: "Authorization error"})
+    }
+  }
+
+  async users(request, response) {
+    try {
+      response.json("AUTHORIZATION IS WORK")
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+}
+
+module.exports = new authController()
