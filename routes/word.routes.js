@@ -1,11 +1,16 @@
 const Router = require("express")
 const router = new Router()
-const userController = require("../controller/word.controller")
+const wordController = require("../controller/word.controller")
+const {check} = require("express-validator")
 
-router.post("/word", userController.addWord)
-router.get("/word", userController.getWords)
-router.get("/word/:slug", userController.getWord)
-router.put("/word/:slug", userController.updateWord)
-router.delete("/word/:slug", userController.deleteWord)
+router.post("/word", [
+  check("learning_word", "Learning word cannot be empty").notEmpty()
+], wordController.addWord)
+router.get("/word", wordController.getWords)
+router.get("/word/:slug", wordController.getWord)
+router.put("/word/:slug", [
+  check("learning_word", "Learning word cannot be empty").notEmpty()
+], wordController.updateWord)
+router.delete("/word/:slug", wordController.deleteWord)
 
 module.exports = router
