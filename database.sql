@@ -2,7 +2,8 @@
 create TABLE auth_user(
     id SERIAL PRIMARY KEY,
     username VARCHAR(15),
-    user_password VARCHAR(225)
+    user_password VARCHAR(225),
+    user_email VARCHAR(35)
 );
 
 create TABLE word(
