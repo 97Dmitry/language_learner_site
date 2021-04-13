@@ -155,6 +155,11 @@ export default {
           this.$error(this.ERROR);
         } else {
           this.$message("Success authorization");
+          this.user_email = "";
+          this.user_password = "";
+          this.passwordConfirmation = "";
+          this.username = "";
+          this.agree = false;
         }
       } catch (e) {
         console.log(e);

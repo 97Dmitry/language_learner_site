@@ -83,12 +83,12 @@ export default {
       };
       try {
         await this.LOGIN(formData);
-        // this.$router.push({ name: "Home" });
 
         if (this.ERROR) {
           this.$error(this.ERROR);
         } else {
           this.$message("Success authorization");
+          // this.$router.push({ name: "Home" });
         }
       } catch (e) {
         console.log(e);
