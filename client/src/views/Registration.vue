@@ -126,7 +126,7 @@ export default {
       user_email: { required, email },
       user_password: { required, minLength: minLength(6) },
       passwordConfirmation: { required, minLength: minLength(6) },
-      username: { required, minLength: minLength(4) },
+      username: { required, minLength: minLength(1) },
       agree: { checked: (v) => v },
     };
   },

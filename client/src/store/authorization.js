@@ -36,11 +36,13 @@ export default {
             console.log(response.data);
           })
           .catch((error) => {
-            error.response.data.message;
-            commit("SET_ERROR", error.response.data.message);
+            commit(
+              "SET_ERROR",
+              error.response.data.message || error.response.data.errors[0].msg
+            );
             setTimeout(() => {
               commit("CLEAR_ERROR");
-            }, 0);
+            }, 1000);
           });
       } catch (e) {
         commit("SET_ERROR", e);
