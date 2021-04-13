@@ -10,18 +10,18 @@ class authController {
       if (!errors.isEmpty()) {
         return response.status(400).json(errors)
       }
-      const {username, user_password} = request.body
+      const {username, user_email, user_password} = request.body
       const candidate = await db.query(`SELECT username
                                         FROM auth_user
                                         where username = $1`, [username]);
       if (candidate.rows.length) {
         return response.status(400).json({message: `User with that name exists already`})
       } else {
-        const hashPassword = bcrypt.hashSync(user_password, 7)
+        const hashPassword = await bcrypt.hashSync(user_password, 7)
         const newUser = await db.query(
-          `INSERT INTO auth_user (username, user_password)
-           VALUES ($1, $2)
-           RETURNING *`, [username, hashPassword]
+          `INSERT INTO auth_user (username, user_email, user_password)
+           VALUES ($1, $2, $3)
+           RETURNING *`, [username, user_email, hashPassword]
         );
         return response.status(201).json({message: `You were registration`, user: newUser.rows})
       }
@@ -40,7 +40,7 @@ class authController {
       if (!user.rows.length) {
         return response.status(404).json({message: `User ${username} not found`})
       }
-      const checkPassword = bcrypt.compareSync(user_password, user.rows[0].user_password)
+      const checkPassword = await bcrypt.compareSync(user_password, user.rows[0].user_password)
       if (!checkPassword) {
         return response.status(400).json({message: "Password isn't correct"})
       }

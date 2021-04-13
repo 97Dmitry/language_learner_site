@@ -1,22 +1,25 @@
 const express = require("express")
 require('dotenv').config()
 
-// ROUTING
-const userRouter = require("./routes/user.routes")
-const wordRouter = require("./routes/word.routes")
-const authRouter = require("./routes/auth.routes")
-
-
-const PORT = process.env.PORT || 7000
 
 const app = express()
 
 app.use(express.json())
-app.use("/api", userRouter)
-app.use("/api", wordRouter)
-app.use("/api", authRouter)
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "OPTIONS, GET, POST, PUT, PATCH, DELETE"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  next();
+});
+// ROUTING
+app.use("/api", require("./routes/user.routes"))
+app.use("/api", require("./routes/word.routes"))
+app.use("/api", require("./routes/auth.routes"))
 
-
+const PORT = process.env.PORT || 7000
 const start = () => {
   try {
     app.listen(PORT, () => console.log(`SERVER was been start on ${PORT} port!!!`))

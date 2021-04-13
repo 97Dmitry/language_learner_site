@@ -5,6 +5,7 @@
   "main": "app.js",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "concurrently": "^6.0.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-validator": "^6.10.0",
@@ -16,7 +17,9 @@
   },
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "server": "nodemon app.js",
+    "client": "npm run serve --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "",

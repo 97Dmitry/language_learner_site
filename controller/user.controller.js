@@ -1,4 +1,5 @@
 const db = require("../db")
+const bcrypt = require("bcryptjs");
 const {validationResult} = require("express-validator")
 
 
@@ -9,10 +10,10 @@ class UserController {
       if (!errors.isEmpty()) {
         return response.status(400).json(errors)
       }
-      const {username, user_password} = request.body
+      const {username, user_password, user_email} = request.body
       const newUser = await db.query(
-        `INSERT INTO auth_user (username, user_password)
-         VALUES ($1, $2) RETURNING *`, [username, user_password]
+        `INSERT INTO auth_user (username, user_password, user_email)
+         VALUES ($1, $2, $3) RETURNING *`, [username, user_password, user_email]
       );
       response.status(201).json(newUser.rows[0])
     } catch (e) {
@@ -51,11 +52,13 @@ class UserController {
       if (!errors.isEmpty()) {
         return response.status(400).json(errors)
       }
-      const {id, username, user_password} = request.body
+      const {id, username, user_password, user_email} = request.body
+      const hashPassword = await bcrypt.hashSync(user_password, 7)
       const user = await db.query(`UPDATE auth_user
                                    set username      = $1,
-                                       user_password = $2
-                                   where id = $3 RETURNING *`, [username, user_password, id]);
+                                       user_password = $2,
+                                       user_email    = $3
+                                   where id = $4 RETURNING *`, [username, hashPassword, user_email, id]);
       response.status(201).json(user.rows[0])
     } catch (e) {
       console.log(e)
