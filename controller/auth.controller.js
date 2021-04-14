@@ -45,12 +45,12 @@ class authController {
         return response.status(400).json({message: "Password isn't correct"})
       }
       const token = jwt.sign(
-        {id: user.rows[0].id}, process.env.SECRET_KEY, {expiresIn: "24h"}
+        {user_id: user.rows[0].user_id}, process.env.SECRET_KEY, {expiresIn: "24h"}
       )
       return response.status(202).json({
         token,
         user: {
-          id: user.rows[0].id,
+          user_id: user.rows[0].user_id,
           username: user.rows[0].username
         }
       })

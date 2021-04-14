@@ -1,11 +1,24 @@
-
+-- USERS --
 create TABLE auth_user(
-    id SERIAL PRIMARY KEY,
+    user_id SERIAL PRIMARY KEY,
     username VARCHAR(15),
     user_password VARCHAR(225),
     user_email VARCHAR(35)
 );
 
+create TABLE permissions(
+    permission_id SERIAL PRIMARY KEY,
+    permission VARCHAR(35)
+);
+
+create TABLE user_permissions(
+    user_id int REFERENCES auth_user (user_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    permission_id int REFERENCES permissions (permission_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT auth_user_permissions_pkey PRIMARY KEY (user_id, permission_id)
+);
+
+
+-- WORDS --
 create TABLE word(
     id SERIAL PRIMARY KEY,
     user_id INTEGER,

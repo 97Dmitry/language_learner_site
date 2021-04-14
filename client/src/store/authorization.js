@@ -12,7 +12,7 @@ export default {
         await axios
           .post(`${server}/authorization`, data)
           .then((response) => {
-            const userId = JSON.stringify(response.data.user.id);
+            const userId = JSON.stringify(response.data.user.user_id);
             const username = JSON.stringify(response.data.user.username);
             const token = JSON.stringify(response.data.token);
             localStorage.setItem("userId", userId);

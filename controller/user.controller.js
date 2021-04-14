@@ -35,10 +35,10 @@ class UserController {
 
   async getUser(request, response) {
     try {
-      const id = request.params.id
+      const id = request.params.user_id
       const user = await db.query(`SELECT *
                                    FROM auth_user
-                                   where id = $1`, [id]);
+                                   where user_id = $1`, [user_id]);
       response.status(200).json(user.rows[0])
     } catch (e) {
       console.log(e)
@@ -52,13 +52,13 @@ class UserController {
       if (!errors.isEmpty()) {
         return response.status(400).json(errors)
       }
-      const {id, username, user_password, user_email} = request.body
+      const {user_id, username, user_password, user_email} = request.body
       const hashPassword = await bcrypt.hashSync(user_password, 7)
       const user = await db.query(`UPDATE auth_user
                                    set username      = $1,
                                        user_password = $2,
                                        user_email    = $3
-                                   where id = $4 RETURNING *`, [username, hashPassword, user_email, id]);
+                                   where user_id = $4 RETURNING *`, [username, hashPassword, user_email, user_id]);
       response.status(201).json(user.rows[0])
     } catch (e) {
       console.log(e)
@@ -68,10 +68,10 @@ class UserController {
 
   async deleteUser(request, response) {
     try {
-      const id = request.params.id
+      const user_id = request.params.user_id
       const user = await db.query(`DELETE
                                    FROM auth_user
-                                   where id = $1`, [id]);
+                                   where id = $1`, [user_id]);
       response.status(200).json(user.rows[0])
     } catch (e) {
       console.log(e)
