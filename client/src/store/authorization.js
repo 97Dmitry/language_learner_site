@@ -12,7 +12,12 @@ export default {
         await axios
           .post(`${server}/authorization`, data)
           .then((response) => {
-            console.log(response.data);
+            const userId = JSON.stringify(response.data.user.id);
+            const username = JSON.stringify(response.data.user.username);
+            const token = JSON.stringify(response.data.token);
+            localStorage.setItem("userId", userId);
+            localStorage.setItem("token", token);
+            localStorage.setItem("username", username);
           })
           .catch((error) => {
             error.response.data.message;
@@ -42,13 +47,19 @@ export default {
             );
             setTimeout(() => {
               commit("CLEAR_ERROR");
-            }, 1000);
+            }, 0);
           });
       } catch (e) {
         commit("SET_ERROR", e);
         throw e;
       }
     },
+    LOGOUT() {
+      localStorage.setItem("userId", "");
+      localStorage.setItem("token", "");
+      localStorage.setItem("username", "");
+    },
+    IS_AUTHORIZED() {},
   },
   modules: {},
   getters: {},

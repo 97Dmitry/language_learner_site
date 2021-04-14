@@ -4,8 +4,8 @@
       <div class="card-content">
         <span class="auth-title">Words learning</span>
         <div class="input-field">
-          <input id="email" type="text" v-model="username" />
-          <label for="email">Username</label>
+          <input id="username" type="text" v-model="username" />
+          <label for="username">Username</label>
           <small
             class="helper-text invalid"
             v-for="(error, index) of v$.username.$errors"
@@ -36,7 +36,7 @@
         </div>
 
         <p class="center">
-          Do you have no account?
+          Do you have no an account?
           <router-link to="/registration">Register now</router-link>
         </p>
       </div>

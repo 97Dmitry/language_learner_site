@@ -13,7 +13,7 @@
             v-model.trim="username"
             :class="{ invalid: v$.username.$error }"
           />
-          <label for="username">Имя аккаунта</label>
+          <label for="username">Username</label>
           <small
             class="helper-text invalid"
             v-for="(error, index) of v$.username.$errors"
@@ -29,7 +29,7 @@
             v-model.trim="user_email"
             :class="{ invalid: v$.user_email.$error }"
           />
-          <label for="email">Электронная почта</label>
+          <label for="email">Email</label>
           <small
             class="helper-text invalid"
             v-for="(error, index) of v$.user_email.$errors"
@@ -45,7 +45,7 @@
             v-model.trim="user_password"
             :class="{ invalid: v$.user_password.$error }"
           />
-          <label for="password">Пароль</label>
+          <label for="password">Password</label>
           <small
             class="helper-text invalid"
             v-for="(error, index) of v$.user_password.$errors"
@@ -61,7 +61,7 @@
             v-model.trim="passwordConfirmation"
             :class="{ invalid: v$.passwordConfirmation.$error }"
           />
-          <label for="passwordConfirmation">Пароль</label>
+          <label for="passwordConfirmation">Confirm password</label>
           <small
             class="helper-text invalid"
             v-for="(error, index) of v$.passwordConfirmation.$errors"
@@ -78,7 +78,7 @@
                 v-on:click="agree = !agree"
                 v-model="agree"
               />
-              <span>С правилами согласен</span>
+              <span>Agreement with the rules</span>
             </label>
           </p>
         </div>
@@ -88,14 +88,14 @@
               class="btn waves-effect waves-light auth-submit"
               type="submit"
             >
-              Зарегистрироваться
+              Registration
               <i class="material-icons right">send</i>
             </button>
           </div>
         </div>
         <p class="text-center" style="color: #0f0f0f; margin-top: 5px">
-          Уже есть аккаунт?
-          <router-link to="/authorization">Войти!</router-link>
+          Do you have an account?
+          <router-link to="/authorization">Login now!</router-link>
         </p>
       </div>
     </form>
