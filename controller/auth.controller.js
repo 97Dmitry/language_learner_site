@@ -23,6 +23,10 @@ class authController {
            VALUES ($1, $2, $3)
            RETURNING *`, [username, user_email, hashPassword]
         );
+        await db.query(`INSERT INTO user_permissions (user_id, permission_id)
+                        VALUES ($1, $2)
+                        RETURNING *`, [newUser.rows[0].user_id, 1]
+        );
         return response.status(201).json({message: `You were registration`, user: newUser.rows})
       }
     } catch (e) {
@@ -35,8 +39,8 @@ class authController {
     try {
       const {username, user_password} = request.body
       const user = await db.query(`SELECT *
-                                        FROM auth_user
-                                        where username = $1`, [username]);
+                                   FROM auth_user
+                                   where username = $1`, [username]);
       if (!user.rows.length) {
         return response.status(404).json({message: `User ${username} not found`})
       }

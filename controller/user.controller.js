@@ -15,6 +15,9 @@ class UserController {
         `INSERT INTO auth_user (username, user_password, user_email)
          VALUES ($1, $2, $3) RETURNING *`, [username, user_password, user_email]
       );
+      await db.query(`INSERT INTO user_permissions (user_id, permission_id)
+                      VALUES ($1, $2) RETURNING *`, [newUser.rows[0].user_id, 1]
+      );
       response.status(201).json(newUser.rows[0])
     } catch (e) {
       console.log(e)
@@ -35,7 +38,7 @@ class UserController {
 
   async getUser(request, response) {
     try {
-      const id = request.params.user_id
+      const user_id = request.params.user_id
       const user = await db.query(`SELECT *
                                    FROM auth_user
                                    where user_id = $1`, [user_id]);
