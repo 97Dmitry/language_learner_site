@@ -27,7 +27,7 @@ class permissionsController {
       const permission = await db.query(`DELETE
                                          FROM permissions
                                          where permission_id = $1`, [permission_id]);
-      response.status(200).json(user.rows[0])
+      response.status(200).json(permission.rows[0])
     } catch (e) {
       console.log(e)
       response.status(400).json({message: "Delete error"})
