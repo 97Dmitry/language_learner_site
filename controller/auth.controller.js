@@ -48,14 +48,29 @@ class authController {
       if (!checkPassword) {
         return response.status(400).json({message: "Password isn't correct"})
       }
+
+      const userId = user.rows[0].user_id
+      const permissions = await db.query(`SELECT permissions.permission
+                                         FROM permissions,
+                                              user_permissions
+                                         WHERE permissions.permission_id = user_permissions.permission_id
+                                           AND user_permissions.user_id = $1`, [userId])
+
+      const userPermissions =[]
+      await permissions.rows.forEach( item => {
+        userPermissions.push(item.permission)
+      })
+
       const token = jwt.sign(
-        {user_id: user.rows[0].user_id}, process.env.SECRET_KEY, {expiresIn: "24h"}
+        {user_id: userId, permissions: userPermissions}, process.env.SECRET_KEY, {expiresIn: "24h"}
       )
       return response.status(202).json({
         token,
         user: {
-          user_id: user.rows[0].user_id,
-          username: user.rows[0].username
+          user_id: userId,
+          username: user.rows[0].username,
+          permissions: userPermissions
+
         }
       })
     } catch (e) {
