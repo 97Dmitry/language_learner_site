@@ -51,18 +51,18 @@ class authController {
 
       const userId = user.rows[0].user_id
       const permissions = await db.query(`SELECT permissions.permission
-                                         FROM permissions,
-                                              user_permissions
-                                         WHERE permissions.permission_id = user_permissions.permission_id
-                                           AND user_permissions.user_id = $1`, [userId])
+                                          FROM permissions,
+                                               user_permissions
+                                          WHERE permissions.permission_id = user_permissions.permission_id
+                                            AND user_permissions.user_id = $1`, [userId])
 
-      const userPermissions =[]
-      await permissions.rows.forEach( item => {
+      const userPermissions = []
+      await permissions.rows.forEach(item => {
         userPermissions.push(item.permission)
       })
 
       const token = jwt.sign(
-        {user_id: userId, permissions: userPermissions}, process.env.SECRET_KEY, {expiresIn: "24h"}
+        {user_id: userId, permissions: userPermissions}, process.env.SECRET_KEY, {expiresIn: "1h"}
       )
       return response.status(202).json({
         token,

@@ -3,7 +3,8 @@ import { createRouter, createWebHistory } from "vue-router";
 const routes = [
   {
     path: "/",
-    name: "Home",
+    name: "Main",
+    meta: { auth: true },
     component: () => import("@/views/Main.vue"),
   },
 
@@ -34,6 +35,17 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const currentUser = localStorage.username;
+  const requireAuth = to.matched.some((record) => record.meta.auth);
+
+  if (requireAuth && !currentUser) {
+    next("/authorization?message=login");
+  } else {
+    next();
+  }
 });
 
 export default router;

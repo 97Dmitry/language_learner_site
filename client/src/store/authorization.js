@@ -9,8 +9,14 @@ export default {
       try {
         const data = { username, user_password };
         const server = store.getters.GET_SERVER_URL;
-        await axios
-          .post(`${server}/authorization`, data)
+        await axios({
+          method: "POST",
+          url: `${server}/authorization`,
+          data: data,
+          headers: {
+            "Content-type": "application/json",
+          },
+        })
           .then((response) => {
             const userId = response.data.user.user_id;
             const username = response.data.user.username;

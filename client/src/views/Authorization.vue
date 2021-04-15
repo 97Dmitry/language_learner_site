@@ -46,6 +46,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import messages from "@/utils/messages";
 import useVuelidate from "@vuelidate/core";
 import { minLength, required } from "@vuelidate/validators";
 
@@ -69,6 +70,11 @@ export default {
   computed: {
     ...mapGetters(["ERROR"]),
   },
+  mounted() {
+    if (messages[this.$route.query.message]) {
+      this.$message(messages[this.$route.query.message]);
+    }
+  },
   methods: {
     ...mapActions(["LOGIN"]),
     async submitHandler() {
@@ -88,7 +94,7 @@ export default {
           this.$error(this.ERROR);
         } else {
           this.$message("Success authorization");
-          // this.$router.push({ name: "Home" });
+          await this.$router.push({ name: "Main" });
         }
       } catch (e) {
         console.log(e);

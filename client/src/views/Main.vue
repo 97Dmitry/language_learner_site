@@ -17,6 +17,10 @@ export default {
     ...mapActions(["LOGOUT"]),
     async logout() {
       await this.LOGOUT();
+      this.$router.push({
+        name: "Authorization",
+        query: { message: "logout" },
+      });
     },
   },
 };

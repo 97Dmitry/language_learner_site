@@ -22,7 +22,7 @@ create TABLE user_permissions(
 create TABLE word(
     id SERIAL PRIMARY KEY,
     user_id INTEGER,
-    FOREIGN KEY (user_id) REFERENCES auth_user (id),
+    FOREIGN KEY (user_id) REFERENCES auth_user (user_id),
     learning_word VARCHAR(35),
 --     translation_verb text[],
 --     translation_noun text[],
