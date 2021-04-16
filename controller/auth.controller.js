@@ -2,8 +2,9 @@ const db = require("../db")
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken")
 const {validationResult} = require("express-validator")
+const TokenGenerator = require("../utils/tokenGenerator")
 
-class authController {
+class AuthController {
   async registration(request, response) {
     try {
       const errors = validationResult(request)
@@ -61,16 +62,14 @@ class authController {
         userPermissions.push(item.permission)
       })
 
-      const token = jwt.sign(
-        {user_id: userId, permissions: userPermissions}, process.env.SECRET_KEY, {expiresIn: "1h"}
-      )
+      const tokens = await TokenGenerator.updateTokens(userId, userPermissions)
+
       return response.status(202).json({
-        token,
+        tokens: tokens,
         user: {
           user_id: userId,
           username: user.rows[0].username,
           permissions: userPermissions
-
         }
       })
     } catch (e) {
@@ -79,14 +78,42 @@ class authController {
     }
   }
 
-  async users(request, response) {
+  async refreshUserToken(request, response) {
+    const {refreshToken} = request.body;
+    let payload;
     try {
-      response.json("AUTHORIZATION IS WORK")
+      payload = jwt.verify(refreshToken, process.env.SECRET_KEY)
+      if (payload.type !== process.env.REFRESH_TOKEN_TYPE) {
+        return response.status(400).json({message: "Wrong token type"});
+      }
     } catch (e) {
-      console.log(e)
+      if (e instanceof jwt.TokenExpiredError) {
+        return response.status(400).json({message: "Token expired"});
+      } else if (e instanceof jwt.JsonWebTokenError) {
+        return response.status(400).json({message: "Wrong token"});
+      }
     }
-  }
 
+    const userId = await db.query(`SELECT user_id
+                                   FROM token
+                                   WHERE token_id = $1`, [payload.id])
+    if (!userId) {
+      return response.status(400).json({message: "Wrong token"});
+    }
+
+    const permissions = await db.query(`SELECT permissions.permission
+                                        FROM permissions,
+                                             user_permissions
+                                        WHERE permissions.permission_id = user_permissions.permission_id
+                                          AND user_permissions.user_id = $1`, [userId])
+
+    const userPermissions = []
+    await permissions.rows.forEach(item => {
+      userPermissions.push(item.permission)
+    })
+    const tokens = TokenGenerator.updateTokens(userId, userPermissions)
+    return response.status(200).json(tokens)
+  }
 }
 
-module.exports = new authController()
+module.exports = new AuthController()
