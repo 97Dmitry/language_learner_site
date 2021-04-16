@@ -1,7 +1,7 @@
 const db = require("../db")
 const {validationResult} = require("express-validator")
 
-class permissionsController {
+class PermissionsController {
   async createPermission(request, response) {
     try {
       const errors = validationResult(request)
@@ -36,4 +36,4 @@ class permissionsController {
 
 }
 
-module.exports = new permissionsController()
+module.exports = new PermissionsController()

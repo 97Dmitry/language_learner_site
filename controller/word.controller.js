@@ -2,7 +2,7 @@ const db = require("../db")
 const {validationResult} = require("express-validator")
 
 
-class wordController {
+class WordController {
   async addWord(request, response) {
     try {
       const errors = validationResult(request)
@@ -95,4 +95,4 @@ class wordController {
   }
 }
 
-module.exports = new wordController()
+module.exports = new WordController()

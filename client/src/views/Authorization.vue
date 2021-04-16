@@ -88,7 +88,7 @@ export default {
         user_password: this.user_password,
       };
       try {
-        await this.LOGIN(formData);
+        await this.AUTHORIZATION(formData);
 
         if (this.ERROR) {
           this.$error(this.ERROR);

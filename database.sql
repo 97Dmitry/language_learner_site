@@ -1,8 +1,8 @@
 -- USERS --
 create TABLE auth_user(
     user_id SERIAL PRIMARY KEY,
-    username VARCHAR(15),
-    user_password VARCHAR(225),
+    username  VARCHAR(15) UNIQUE NOT NULL,
+    user_password  VARCHAR(225) NOT NULL,
     user_email VARCHAR(35)
 );
 
@@ -17,6 +17,10 @@ create TABLE user_permissions(
     CONSTRAINT auth_user_permissions_pkey PRIMARY KEY (user_id, permission_id)
 );
 
+create TABLE token(
+    token_id VARCHAR(150) UNIQUE NOT NULL,
+    user_id int REFERENCES auth_user (user_id) ON UPDATE CASCADE ON DELETE CASCADE
+);
 
 -- WORDS --
 create TABLE word(

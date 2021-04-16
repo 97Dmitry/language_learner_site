@@ -5,7 +5,7 @@ export default {
   state: {},
   mutations: {},
   actions: {
-    async LOGIN({ commit }, { username, user_password }) {
+    async AUTHORIZATION({ commit }, { username, user_password }) {
       try {
         const data = { username, user_password };
         const server = store.getters.GET_SERVER_URL;
