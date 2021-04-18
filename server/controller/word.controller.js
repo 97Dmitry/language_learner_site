@@ -10,7 +10,7 @@ class WordController {
       if (!errors.isEmpty()) {
         return response.status(400).json(errors)
       }
-      const user_id = tp.tokenParse(request.headers.authorization).id
+      const user_id = tp.tokenParse(request.headers.authorization).user_id
       const {learning_word} = request.body
       const newWord = await db.query(
         `INSERT INTO word (learning_word, user_id)
@@ -71,12 +71,12 @@ class WordController {
       if (!errors.isEmpty()) {
         return response.status(400).json(errors)
       }
-      const {word_id, general_translation} = request.body
+      const {word_id, translation_general} = request.body
       const newWord = await db.query(
-        `INSERT INTO general_translate (word_id, general_translation)
+        `INSERT INTO translation_general (word_id, translation_general)
          VALUES ($1, $2)
          RETURNING *`,
-        [word_id, general_translation]
+        [word_id, translation_general]
       );
       response.status(201).json(newWord.rows[0])
     } catch (e) {
@@ -87,12 +87,22 @@ class WordController {
 
   async getWords(request, response) {
     try {
-      const {user_id} = request.body
-      const word = await db.query(`SELECT *
-                                   FROM word
-                                   WHERE user_id = $1`,
+      const user_id = tp.tokenParse(request.headers.authorization).user_id
+      // const word = await db.query(`SELECT word.learning_word,
+      //                                     translation_verb.translation_verb,
+      //                                     translation_noun.translation_noun,
+      //                                     translation_general.translation_general
+      //                              FROM word
+      //                                       FULL OUTER JOIN translation_verb ON word.id = translation_verb.word_id
+      //                                       FULL OUTER JOIN translation_noun ON word.id = translation_noun.word_id
+      //                                       FULL OUTER JOIN translation_general ON word.id = translation_general.word_id
+      //                              WHERE word.user_id = $1`,
+      //   [user_id]);
+      const learning_words = await db.query(`SELECT *
+                                             FROM word
+                                             WHERE word.user_id = $1`,
         [user_id]);
-      response.status(200).json(word.rows)
+      response.status(200).json(learning_words.rows)
     } catch (e) {
       console.log(e)
       response.status(400).json({message: "Get error"})
@@ -101,14 +111,21 @@ class WordController {
 
   async getWord(request, response) {
     try {
-      const slug = request.params.slug
-      const {user_id} = request.body
-      const word = await db.query(`SELECT *
-                                   FROM word
-                                   where learning_word = $1
-                                     AND user_id = $2`,
-        [slug, user_id])
-      response.status(200).json(word.rows[0]);
+      const word_id = request.params.word_id
+      const translation_verb = await db.query(`SELECT *
+                                               FROM translation_verb
+                                               WHERE word_id = $1`, [word_id]);
+      const translation_noun = await db.query(`SELECT *
+                                               FROM translation_noun
+                                               WHERE word_id = $1`, [word_id]);
+      const translation_general = await db.query(`SELECT *
+                                                  FROM translation_general
+                                                  WHERE word_id = $1`, [word_id]);
+      response.status(200).json({
+        verb: translation_verb.rows,
+        noun: translation_noun.rows,
+        general: translation_general.rows
+      });
     } catch (e) {
       console.log(e)
       response.status(400).json({message: "Get error"})
@@ -124,11 +141,13 @@ class WordController {
       const slug = request.params.slug
       const {user_id} = request.body
       const {learning_word, translation_verb, translation_noun, general_translate} = request.body
-      const word = await db.query(`UPDATE word
-                                   set learning_word     = $1
-                                   where learning_word = $2
-                                     AND user_id = $3
-                                   RETURNING *`,
+      const word = await db.query(`
+                  UPDATE
+                      word
+                  set learning_word = $1
+                  where learning_word = $2
+                    AND user_id = $3
+                  RETURNING * `,
         [learning_word, slug, user_id])
       response.status(201).json(word.rows[0]);
     } catch (e) {
@@ -141,10 +160,11 @@ class WordController {
     try {
       const {user_id} = request.body
       const slug = request.params.slug
-      const word = await db.query(`DELETE
-                                   FROM word
-                                   where learning_word = $1
-                                     AND user_id = $2`,
+      const word = await db.query(`
+                  DELETE
+                  FROM word
+                  where learning_word = $1
+                    AND user_id = $2`,
         [slug, user_id])
       response.status(200).json(word.rows[0]);
     } catch (e) {

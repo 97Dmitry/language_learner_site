@@ -9,20 +9,20 @@ router.post("/word_add-learning-word", [
 ], WordController.addLearningWord)
 //
 router.post("/word_add-translation-verb", [
-  check("learning_word", "Learning word cannot be empty").notEmpty()
+  check("translation_verb", "Learning word cannot be empty").notEmpty()
 ], WordController.addTranslationVerb)
 //
 router.post("/word_add-translation-noun", [
-  check("learning_word", "Learning word cannot be empty").notEmpty()
+  check("translation_noun", "Learning word cannot be empty").notEmpty()
 ], WordController.addTranslationNoun)
 //
 router.post("/word_add-translation-general", [
-  check("learning_word", "Learning word cannot be empty").notEmpty()
+  check("general_translation", "Learning word cannot be empty").notEmpty()
 ], WordController.addTranslationGeneral)
 
 // OTHER
-router.get("/word", WordController.getWords)
-router.get("/word/:slug", WordController.getWord)
+router.get("/words", WordController.getWords)
+router.get("/word/:word_id", WordController.getWord)
 router.put("/word/:slug", [
   check("learning_word", "Learning word cannot be empty").notEmpty()
 ], WordController.updateWord)

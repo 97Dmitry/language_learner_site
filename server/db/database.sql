@@ -43,7 +43,7 @@ create TABLE translation_noun(
     translation_option VARCHAR(35)
 );
 
-create TABLE general_translate(
+create TABLE general_translation(
     id SERIAL PRIMARY KEY,
     word_id INTEGER REFERENCES word (id) ON UPDATE CASCADE ON DELETE CASCADE,
     translation_option VARCHAR(35)
