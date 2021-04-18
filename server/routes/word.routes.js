@@ -22,7 +22,7 @@ router.post("/word_add-translation-general", [
 
 // OTHER
 router.get("/words", WordController.getWords)
-router.get("/word/:word_id", WordController.getWord)
+router.get("/word/:word", WordController.getWord)
 router.put("/word/:slug", [
   check("learning_word", "Learning word cannot be empty").notEmpty()
 ], WordController.updateWord)
