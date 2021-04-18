@@ -88,7 +88,7 @@ class AuthController {
       }
     } catch (e) {
       if (e instanceof jwt.TokenExpiredError) {
-        return response.status(400).json({message: "Token expired"});
+        return response.status(400).json({message: "Refresh token expired"});
       } else if (e instanceof jwt.JsonWebTokenError) {
         return response.status(400).json({message: "Wrong token"});
       }
@@ -105,14 +105,14 @@ class AuthController {
                                         FROM permissions,
                                              user_permissions
                                         WHERE permissions.permission_id = user_permissions.permission_id
-                                          AND user_permissions.user_id = $1`, [userId])
+                                          AND user_permissions.user_id = $1`, [userId.rows[0].user_id])
 
     const userPermissions = []
     await permissions.rows.forEach(item => {
       userPermissions.push(item.permission)
     })
-    const tokens = TokenGenerator.updateTokens(userId, userPermissions)
-    return response.status(200).json(tokens)
+    const tokens = await TokenGenerator.updateTokens(userId.rows[0].user_id, userPermissions)
+    return response.status(200).json({tokens: tokens})
   }
 }
 

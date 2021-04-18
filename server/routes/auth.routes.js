@@ -13,6 +13,6 @@ router.post("/registration", [
   check("user_email", "Email cannot be less 5 symbol and more 35").isLength({min: 5, max: 35})
 ], AuthController.registration)
 router.post("/authorization", AuthController.authorization)
-router.get("/refresh-token", AuthController.refreshUserToken)
+router.post("/refresh-token", AuthController.refreshUserToken)
 
 module.exports = router
