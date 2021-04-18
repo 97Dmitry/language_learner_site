@@ -22,7 +22,6 @@ const routes = [
   {
     path: "/not_found",
     name: "NotFoundComponent",
-    meta: { layout: "void" },
     component: () => import("@/views/NotFoundPage.vue"),
   },
 

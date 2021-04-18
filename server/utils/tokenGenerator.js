@@ -46,6 +46,7 @@ class TokenGenerator {
     const accessToken = this.generateAccessToken(userId, userPermissions);
     const refreshToken = this.generateRefreshToken();
 
+
     return this.replaceDbRefreshToken(refreshToken.id, userId).then(() => ({
       accessToken,
       refreshToken: refreshToken.token

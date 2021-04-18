@@ -1,11 +1,15 @@
 <template>
   <div>
     <button v-on:click.prevent="logout">LOGOUT</button>
+    <p v-for="word in WORDS" :key="word.id">
+      {{ word.learning_word }}
+    </p>
+    <div>fffgff</div>
   </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "Home",
@@ -13,8 +17,14 @@ export default {
     return {};
   },
   components: {},
+  computed: {
+    ...mapGetters(["WORDS"]),
+    ...mapActions(["GET_ALL_WORDS_OF_USER"]),
+  },
+  async mounted() {
+    await this.GET_ALL_WORDS_OF_USER;
+  },
   methods: {
-    ...mapActions(["LOGOUT"]),
     async logout() {
       await this.LOGOUT();
       this.$router.push({

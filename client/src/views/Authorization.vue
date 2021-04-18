@@ -76,7 +76,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["LOGIN"]),
+    ...mapActions(["AUTHORIZATION"]),
     async submitHandler() {
       this.v$.$touch();
       if (this.v$.$error) {

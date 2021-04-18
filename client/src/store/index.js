@@ -1,6 +1,6 @@
-// import axios from "axios";
 import { createStore } from "vuex";
-import authorization from "@/store/authorization";
+import authorization from "@/store/user";
+import get_words from "@/store/words/words";
 
 export default createStore({
   state: {
@@ -24,5 +24,6 @@ export default createStore({
   },
   modules: {
     authorization,
+    get_words,
   },
 });

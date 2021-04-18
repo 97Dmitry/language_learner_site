@@ -18,12 +18,16 @@ export default {
           },
         })
           .then((response) => {
-            const userId = response.data.user.user_id;
-            const username = response.data.user.username;
-            const token = response.data.token;
-            localStorage.setItem("userId", userId);
-            localStorage.setItem("token", token);
-            localStorage.setItem("username", username);
+            localStorage.setItem("userId", response.data.user.user_id);
+            localStorage.setItem(
+              "accessToken",
+              response.data.tokens.accessToken
+            );
+            localStorage.setItem(
+              "refreshToken",
+              response.data.tokens.refreshToken
+            );
+            localStorage.setItem("username", response.data.user.username);
           })
           .catch((error) => {
             error.response.data.message;
@@ -62,10 +66,28 @@ export default {
     },
     LOGOUT() {
       localStorage.setItem("userId", "");
-      localStorage.setItem("token", "");
+      localStorage.setItem("accessToken", "");
+      localStorage.setItem("refreshToken", "");
       localStorage.setItem("username", "");
     },
     IS_AUTHORIZED() {},
+    async REFRESH_TOKEN({ commit }) {
+      try {
+        const refreshToken = localStorage.getItem("refreshToken");
+        const data = { refreshToken: refreshToken };
+        const server = store.getters.GET_SERVER_URL;
+        await axios.post(`${server}/refresh-token`, data).then((response) => {
+          localStorage.setItem("accessToken", response.data.tokens.accessToken);
+          localStorage.setItem(
+            "refreshToken",
+            response.data.tokens.refreshToken
+          );
+        });
+      } catch (e) {
+        commit("SET_ERROR", e);
+        throw e;
+      }
+    },
   },
   modules: {},
   getters: {},
