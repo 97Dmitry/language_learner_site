@@ -88,6 +88,7 @@ class WordController {
   async getWords(request, response) {
     try {
       const user_id = tp.tokenParse(request.headers.authorization).user_id
+      console.log(user_id)
       // const word = await db.query(`SELECT word.learning_word,
       //                                     translation_verb.translation_verb,
       //                                     translation_noun.translation_noun,
@@ -102,7 +103,7 @@ class WordController {
                                              FROM word
                                              WHERE word.user_id = $1`,
         [user_id]);
-      response.status(200).json(learning_words.rows)
+      return response.status(200).json(learning_words.rows)
     } catch (e) {
       console.log(e)
       response.status(400).json({message: "Get error"})

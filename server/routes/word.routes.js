@@ -2,6 +2,7 @@ const Router = require("express")
 const router = new Router()
 const WordController = require("../controller/word.controller")
 const {check} = require("express-validator")
+const authMiddleware = require("../middleware/authMiddleware")
 
 // ADD
 router.post("/word_add-learning-word", [
@@ -21,7 +22,7 @@ router.post("/word_add-translation-general", [
 ], WordController.addTranslationGeneral)
 
 // OTHER
-router.get("/words", WordController.getWords)
+router.get("/words", authMiddleware, WordController.getWords)
 router.get("/word/:word", WordController.getWord)
 router.put("/word/:slug", [
   check("learning_word", "Learning word cannot be empty").notEmpty()
