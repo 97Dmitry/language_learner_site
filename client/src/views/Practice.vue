@@ -62,11 +62,12 @@ export default {
       ) {
         this.$message("It's true");
       } else {
-        this.$message("This word will be need learned");
+        this.$message(`True option is ${this.RANDOM_WORD.word}`);
       }
-      this.answer = null;
+
       await this.CLEAR_RANDOM_WORD;
       await this.$store.dispatch("GET_RANDOM_WORD");
+      this.answer = null;
     },
   },
   async mounted() {
