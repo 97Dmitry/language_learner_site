@@ -1,8 +1,69 @@
+body {
+  color: #ffffff;
+  /* Сглаживание шрифта */
+  -webkit-font-smoothing: antialiased;
+
+  background-color: #28282a;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+*,
+*:before,
+*:after {
+  /*box-sizing: border-box;*/
+  border: 0;
+  margin: 0;
+}
+
 #app {
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
 }
 
+.main_layout {
+  background-color: #2f2c2c;
+  height: 100vh;
+}
+
+.main_layout_container {
+  width: 60%;
+  height: 86%;
+  background-color: #343437;
+  border-radius: 10px;
+  padding: 10px 10px;
+}
+
+////// HEADER //////
+
+.header {
+  height: $header_height;
+  width: 100%;
+  background-color: #3a3a3d;
+}
+
+.container_header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center; /* Центрировать элементы в оси y */
+  padding: $header_height/3 100px; /* Отступы внутри блока */
+}
+
+.header__logo {
+
+}
+
+.header__nav, .header__nav-item {
+  flex-direction: row;
+  justify-content: flex-end;
+}
 
 ////// AUTHORIZATION //////
 .auth {
@@ -15,10 +76,11 @@
 }
 
 
-.card-content{
+.card-content {
   box-shadow: 0 0 20px 0 #ffffff;
   transition: box-shadow 0.5s linear;
 }
+
 .card-content:hover {
   box-shadow: 0 0 20px 0 #5b615b;
 }
@@ -41,4 +103,3 @@
 .helper-text.invalid {
   color: #cd271b
 }
-

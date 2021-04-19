@@ -30,8 +30,12 @@ export default {
             localStorage.setItem("username", response.data.user.username);
           })
           .catch((error) => {
+            console.log(error);
             error.response.data.message;
-            commit("SET_ERROR", error.response.data.message);
+            commit(
+              "SET_ERROR",
+              error.response.data.message || error.response.data.errors[0].msg
+            );
             setTimeout(() => {
               commit("CLEAR_ERROR");
             }, 0);
@@ -45,20 +49,15 @@ export default {
       try {
         const data = { username, user_password, user_email };
         const server = store.getters.GET_SERVER_URL;
-        await axios
-          .post(`${server}/registration`, data)
-          .then((response) => {
-            console.log(response.data);
-          })
-          .catch((error) => {
-            commit(
-              "SET_ERROR",
-              error.response.data.message || error.response.data.errors[0].msg
-            );
-            setTimeout(() => {
-              commit("CLEAR_ERROR");
-            }, 0);
-          });
+        await axios.post(`${server}/registration`, data).catch((error) => {
+          commit(
+            "SET_ERROR",
+            error.response.data.message || error.response.data.errors[0].msg
+          );
+          setTimeout(() => {
+            commit("CLEAR_ERROR");
+          }, 0);
+        });
       } catch (e) {
         commit("SET_ERROR", e);
         throw e;

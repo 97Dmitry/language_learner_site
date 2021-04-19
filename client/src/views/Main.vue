@@ -1,10 +1,6 @@
 <template>
   <div>
-    <button v-on:click.prevent="logout">LOGOUT</button>
-    <p v-for="word in WORDS" :key="word.id">
-      {{ word.learning_word }}
-    </p>
-    <div>fffgff</div>
+    <!--    <div>{{ WORDS[0].learning_word }}</div>-->
   </div>
 </template>
 
@@ -19,20 +15,12 @@ export default {
   components: {},
   computed: {
     ...mapGetters(["WORDS"]),
-    ...mapActions(["GET_ALL_WORDS_OF_USER"]),
+    ...mapActions(["LOGOUT", "GET_ALL_WORDS_OF_USER"]),
   },
   async mounted() {
     await this.GET_ALL_WORDS_OF_USER;
   },
-  methods: {
-    async logout() {
-      await this.LOGOUT();
-      this.$router.push({
-        name: "Authorization",
-        query: { message: "logout" },
-      });
-    },
-  },
+  methods: {},
 };
 </script>
 

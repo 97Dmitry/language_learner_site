@@ -154,7 +154,7 @@ export default {
         if (this.ERROR) {
           this.$error(this.ERROR);
         } else {
-          this.$message("Success authorization");
+          this.$message("Success registration");
         }
       } catch (e) {
         console.log(e);

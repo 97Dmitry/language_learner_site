@@ -4,24 +4,27 @@ const routes = [
   {
     path: "/",
     name: "Main",
-    meta: { auth: true },
+    meta: { auth: true, layout: "main" },
     component: () => import("@/views/Main.vue"),
   },
 
   {
     path: "/authorization",
     name: "Authorization",
+    meta: { layout: "empty" },
     component: () => import("@/views/Authorization"),
   },
   {
     path: "/registration",
     name: "Registration",
+    meta: { layout: "empty" },
     component: () => import("@/views/Registration"),
   },
 
   {
     path: "/not_found",
     name: "NotFoundComponent",
+    meta: { layout: "empty" },
     component: () => import("@/views/NotFoundPage.vue"),
   },
 

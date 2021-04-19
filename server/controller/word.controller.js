@@ -88,7 +88,6 @@ class WordController {
   async getWords(request, response) {
     try {
       const user_id = tp.tokenParse(request.headers.authorization).user_id
-      console.log(user_id)
       // const word = await db.query(`SELECT word.learning_word,
       //                                     translation_verb.translation_verb,
       //                                     translation_noun.translation_noun,
