@@ -24,6 +24,7 @@ router.post("/word_add-translation-general", [
 // OTHER
 router.get("/words", authMiddleware, WordController.getWords)
 router.get("/word/:word", WordController.getWord)
+router.get("/random-word", authMiddleware, WordController.getRandomWord)
 router.put("/word/:slug", [
   check("learning_word", "Learning word cannot be empty").notEmpty()
 ], WordController.updateWord)

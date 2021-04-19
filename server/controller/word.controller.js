@@ -120,7 +120,43 @@ class WordController {
       const request_word = request.params.word
       const word = await db.query(`SELECT *
                                    FROM word
-                                   WHERE word.user_id = $1 AND learning_word = $2`, [user_id, request_word])
+                                   WHERE word.user_id = $1
+                                     AND learning_word = $2`, [user_id, request_word])
+
+      const translation_verb = await db.query(`SELECT *
+                                               FROM translation_verb
+                                               WHERE word_id = $1`, [word.rows[0].id]);
+      const translation_noun = await db.query(`SELECT *
+                                               FROM translation_noun
+                                               WHERE word_id = $1`, [word.rows[0].id]);
+      const translation_general = await db.query(`SELECT *
+                                                  FROM translation_general
+                                                  WHERE word_id = $1`, [word.rows[0].id]);
+      response.status(200).json({
+        word: word.rows[0].learning_word,
+        verb: translation_verb.rows,
+        noun: translation_noun.rows,
+        general: translation_general.rows
+      });
+    } catch (e) {
+      console.log(e)
+      return response.status(400).json({message: "Get error"})
+    }
+  }
+
+  async getRandomWord(request, response) {
+    try {
+      try {
+        const user_id = tp.tokenParse(request.headers.authorization).user_id
+      } catch (e) {
+        return response.status(400).json({message: "You aren't authorization"})
+      }
+      const user_id = tp.tokenParse(request.headers.authorization).user_id
+      const word = await db.query(`SELECT *
+                                   FROM word
+                                   WHERE word.user_id = $1
+                                   ORDER BY RANDOM()
+                                   LIMIT 1`, [user_id])
 
       const translation_verb = await db.query(`SELECT *
                                                FROM translation_verb

@@ -24,7 +24,6 @@ export default {
       });
     },
   },
-  modules: {},
   getters: {
     WORDS: (state) => {
       return state.words;
