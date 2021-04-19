@@ -1,29 +1,74 @@
 <template>
   <div>
     <h1 class="center title_page">Input translation on english</h1>
-    Пример глагола на русском:
-    <div v-for="verb in RANDOM_WORD.verb" :key="verb.id">
-      {{ verb.translation_verb }}
-    </div>
-    <div>
-      <div class="input-field col s6">
-        <input id="last_name" type="text" class="validate" />
-        <label for="last_name">Input</label>
+    <div class="example_table">
+      <div class="example">
+        <p style="font-weight: 700">Пример глагола на русском:</p>
+        <div v-for="verb in RANDOM_WORD.verb" :key="verb.id">
+          {{ verb.translation_verb }}
+        </div>
       </div>
+      <div class="example">
+        <p style="font-weight: 700">Пример существительного на русском:</p>
+        <div v-for="verb in RANDOM_WORD.noun" :key="verb.id">
+          {{ verb.translation_noun }}
+        </div>
+      </div>
+      <div class="example">
+        <p style="font-weight: 700">Пример основного перевода на русском:</p>
+        <div v-for="verb in RANDOM_WORD.general" :key="verb.id">
+          {{ verb.translation_general }}
+        </div>
+      </div>
+    </div>
+    <div class="practice_input">
+      <p>Введите перевод на английском</p>
+      <div class="input-field col s6">
+        <input id="answer" type="text" class="validate" v-model="answer" />
+        <label for="answer">Input</label>
+      </div>
+      <button
+        class="btn waves-effect waves-light auth-submit"
+        type="submit"
+        v-on:click="checkWord"
+      >
+        Check
+        <i class="material-icons right">send</i>
+      </button>
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "Practice",
+  data() {
+    return {
+      answer: null,
+    };
+  },
   computed: {
     ...mapActions(["GET_RANDOM_WORD"]),
     ...mapGetters(["RANDOM_WORD"]),
+    ...mapMutations(["CLEAR_RANDOM_WORD"]),
   },
-  methods: {},
+  methods: {
+    async checkWord() {
+      if (
+        this.answer &&
+        this.answer.toLowerCase() === this.RANDOM_WORD.word.toLowerCase()
+      ) {
+        this.$message("It's true");
+      } else {
+        this.$message("This word will be need learned");
+      }
+      this.answer = null;
+      await this.CLEAR_RANDOM_WORD;
+      await this.$store.dispatch("GET_RANDOM_WORD");
+    },
+  },
   async mounted() {
     await this.GET_RANDOM_WORD;
   },

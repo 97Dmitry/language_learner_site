@@ -24,6 +24,7 @@ export default {
         },
       }).then((response) => {
         commit("SET_RANDOM_WORD", response.data);
+        console.log(response.data);
       });
     },
   },

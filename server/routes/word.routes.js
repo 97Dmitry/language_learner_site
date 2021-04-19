@@ -18,7 +18,7 @@ router.post("/word_add-translation-noun", [
 ], WordController.addTranslationNoun)
 //
 router.post("/word_add-translation-general", [
-  check("general_translation", "Learning word cannot be empty").notEmpty()
+  check("translation_general", "Learning word cannot be empty").notEmpty()
 ], WordController.addTranslationGeneral)
 
 // OTHER
