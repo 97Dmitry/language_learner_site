@@ -1,9 +1,9 @@
-body {
-  color: #ffffff;
-  /* Сглаживание шрифта */
-  -webkit-font-smoothing: antialiased;
+@import "header.scss";
+@import "auth.scss";
 
-  background-color: #28282a;
+body {
+  /* Сглаживание шрифта */
+  //-webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -28,78 +28,33 @@ p {
 }
 
 .main_layout {
-  background-color: #2f2c2c;
+  position: relative;
   height: 100vh;
 }
 
-.main_layout_container {
-  width: 60%;
-  height: 86%;
-  background-color: #343437;
+.sidebar {
+  display: block;
+  width: 15%;
+  padding: 10px 10px;
+  border-bottom: black 1px solid;
+  border-right: black 1px solid;
+}
+
+.sidebar__item {
+  padding: 10px 10px;
+  border: chocolate 1px solid;
+  margin-bottom: 1px;
+}
+
+.content {
+  border: chocolate 1px solid;
   border-radius: 10px;
   padding: 10px 10px;
+  top: 105px;
+  left: 350px;
+  position: absolute;
 }
 
-////// HEADER //////
-
-.header {
-  height: $header_height;
-  width: 100%;
-  background-color: #3a3a3d;
-}
-
-.container_header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center; /* Центрировать элементы в оси y */
-  padding: $header_height/3 100px; /* Отступы внутри блока */
-}
-
-.header__logo {
-
-}
-
-.header__nav, .header__nav-item {
-  flex-direction: row;
-  justify-content: flex-end;
-}
-
-////// AUTHORIZATION //////
-.auth {
-  background-color: #2f2c2c;
-  background-size: cover;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh
-}
-
-
-.card-content {
-  box-shadow: 0 0 20px 0 #ffffff;
-  transition: box-shadow 0.5s linear;
-}
-
-.card-content:hover {
-  box-shadow: 0 0 20px 0 #5b615b;
-}
-
-.auth-card {
-  width: 500px;
-  color: black;
-  margin-top: $margin * 8;
-}
-
-.auth-title {
-  font-size: 28px;
-  margin-bottom: $margin * 3;
-}
-
-.auth-submit {
-  width: 100%
-}
-
-.helper-text.invalid {
-  color: #cd271b
+.title_page {
+  border-bottom: #0f0f0f 1px solid;
 }

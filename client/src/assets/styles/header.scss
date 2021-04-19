@@ -1,0 +1,25 @@
+////// HEADER //////
+
+.header {
+  box-sizing: inherit;
+  height: $header_height;
+  color: black;
+  //margin-bottom: 15px;
+}
+
+.container_header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center; /* Центрировать элементы в оси y */
+  padding: $header_height/3 100px; /* Отступы внутри блока */
+}
+
+.header__logo {
+
+}
+
+.header__nav, .header__nav-item {
+  flex-direction: row;
+  justify-content: flex-end;
+}

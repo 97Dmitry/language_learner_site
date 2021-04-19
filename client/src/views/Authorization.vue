@@ -94,7 +94,7 @@ export default {
           this.$error(this.ERROR);
         } else {
           this.$message("Success authorization");
-          await this.$router.push({ name: "Main" });
+          await this.$router.push({ name: "Home" });
         }
       } catch (e) {
         console.log(e);

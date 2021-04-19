@@ -59,5 +59,5 @@ export default {
 </script>
 
 <style>
-@import "../assets/styles/style_not_found.css";
+@import "../assets/styles/notFoundPage/style_not_found.css";
 </style>

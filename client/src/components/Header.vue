@@ -1,6 +1,6 @@
 <template>
-  <div class="header">
-    <div class="container container_header">
+  <div class="header orange">
+    <div class="container_header">
       <div class="header__logo">LL</div>
       <div class="header__nav">
         <button v-on:click.prevent="logout">Logout</button>

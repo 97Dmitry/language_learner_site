@@ -21,7 +21,6 @@ axios.interceptors.response.use(
     const {
       response: { status, data },
     } = error;
-
     if (status === 401 && data.message === "Token expired") {
       if (!isRefreshing) {
         isRefreshing = true;

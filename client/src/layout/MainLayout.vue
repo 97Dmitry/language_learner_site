@@ -1,20 +1,20 @@
 <template>
   <div class="main_layout">
     <Header />
-    <div class="container main_layout_container">
-      <div class="content">
-        <router-view />
-      </div>
+    <SideBar />
+    <div class="container content">
+      <router-view />
     </div>
   </div>
 </template>
 
 <script>
 import Header from "@/components/Header";
+import SideBar from "@/components/SideBar";
 
 export default {
   name: "MainLayout",
-  components: { Header },
+  components: { SideBar, Header },
   data() {
     return {};
   },

@@ -101,6 +101,8 @@ class AuthController {
       return response.status(400).json({message: "Wrong token"});
     }
 
+    console.log(userId)
+
     const permissions = await db.query(`SELECT permissions.permission
                                         FROM permissions,
                                              user_permissions

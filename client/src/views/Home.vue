@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!--    <div>{{ WORDS[0].learning_word }}</div>-->
+    <h1 class="center title_page">Choice what do you want to do</h1>
   </div>
 </template>
 
