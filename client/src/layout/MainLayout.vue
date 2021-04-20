@@ -3,7 +3,7 @@
     <Header />
     <SideBar />
     <div class="container content">
-      <router-view />
+      <slot />
     </div>
   </div>
 </template>

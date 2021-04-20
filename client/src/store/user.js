@@ -1,4 +1,4 @@
-import store from "@/store/index";
+import store from "./index";
 import axios from "axios";
 
 export default {

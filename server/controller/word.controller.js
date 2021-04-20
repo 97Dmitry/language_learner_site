@@ -223,13 +223,12 @@ class WordController {
         general_translate,
       } = request.body;
       const word = await db.query(
-        `
-            UPDATE
-                word
-            set learning_word = $1
-            where learning_word = $2
-              AND user_id = $3
-            RETURNING * `,
+        `UPDATE
+             word
+         set learning_word = $1
+         where learning_word = $2
+           AND user_id = $3
+         RETURNING * `,
         [learning_word, slug, user_id]
       );
       response.status(201).json(word.rows[0]);
