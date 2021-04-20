@@ -41,7 +41,7 @@ export default {
     async CHANGE_WORD_KNOWLEDGE_VALUE({ commit }, { word, type }) {
       try {
         const server = store.getters.GET_SERVER_URL;
-        if (word.knowledge < 5 || type === "plus") {
+        if (word.knowledge < 5 && type === "plus") {
           const data = {
             newValueKnowledge: word.knowledge + 1,
             word_id: word.id,
@@ -63,7 +63,7 @@ export default {
               commit("CLEAR_ERROR");
             }, 0);
           });
-        } else if (word.knowledge >= 0 || type === "minus") {
+        } else if (word.knowledge >= 0 && type === "minus") {
           const data = {
             newValueKnowledge: word.knowledge - 1,
             word_id: word.id,

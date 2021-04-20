@@ -24,7 +24,13 @@
     <div class="practice_input">
       <p>Введите перевод на английском</p>
       <div class="input-field col s6">
-        <input id="answer" type="text" class="validate" v-model="answer" />
+        <input
+          id="answer"
+          type="text"
+          class="validate"
+          v-model="answer"
+          autocomplete="off"
+        />
         <label for="answer">Input</label>
         <small
           class="helper-text invalid"
@@ -63,11 +69,10 @@ export default {
   },
   computed: {
     ...mapGetters(["RANDOM_WORD"]),
-    ...mapActions(["GET_RANDOM_WORD"]),
   },
   methods: {
-    ...mapMutations(["CLEAR_RANDOM_WORD"]),
     ...mapActions(["GET_RANDOM_WORD", "CHANGE_WORD_KNOWLEDGE_VALUE"]),
+    ...mapMutations(["CLEAR_RANDOM_WORD"]),
     async checkWord() {
       this.v$.$touch();
       if (this.v$.$error) {
@@ -92,8 +97,8 @@ export default {
         this.$message(`True option is ${this.RANDOM_WORD.word.learning_word}`);
       }
 
-      this.CLEAR_RANDOM_WORD;
-      await this.GET_RANDOM_WORD;
+      await this.CLEAR_RANDOM_WORD();
+      await this.GET_RANDOM_WORD();
       this.answer = null;
       this.v$.$reset();
     },
@@ -104,8 +109,8 @@ export default {
     },
   },
 
-  async mounted() {
-    await this.GET_RANDOM_WORD;
+  mounted() {
+    this.GET_RANDOM_WORD();
   },
   validations() {
     return {
