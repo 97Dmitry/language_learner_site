@@ -31,7 +31,6 @@ export default {
           })
           .catch((error) => {
             console.log(error);
-            error.response.data.message;
             commit(
               "SET_ERROR",
               error.response.data.message || error.response.data.errors[0].msg
@@ -50,6 +49,7 @@ export default {
         const data = { username, user_password, user_email };
         const server = store.getters.GET_SERVER_URL;
         await axios.post(`${server}/registration`, data).catch((error) => {
+          console.log(error.response.data);
           commit(
             "SET_ERROR",
             error.response.data.message || error.response.data.errors[0].msg

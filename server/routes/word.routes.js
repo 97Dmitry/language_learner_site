@@ -1,5 +1,7 @@
 const Router = require("express");
 const router = new Router();
+const AddDataWordsController = require("../controller/words/addDataWords.controller");
+const ChangeDataWordsController = require("../controller/words/changeDataWords.controller");
 const WordController = require("../controller/word.controller");
 const { check } = require("express-validator");
 const authMiddleware = require("../middleware/authMiddleware");
@@ -8,31 +10,47 @@ const authMiddleware = require("../middleware/authMiddleware");
 router.post(
   "/word_add-learning-word",
   [check("learning_word", "Learning word cannot be empty").notEmpty()],
-  WordController.addLearningWord
+  authMiddleware,
+  AddDataWordsController.addLearningWord
 );
 //
 router.post(
   "/word_add-translation-verb",
   [check("translation_verb", "Learning word cannot be empty").notEmpty()],
-  WordController.addTranslationVerb
+  authMiddleware,
+  AddDataWordsController.addTranslationVerb
 );
 //
 router.post(
   "/word_add-translation-noun",
   [check("translation_noun", "Learning word cannot be empty").notEmpty()],
-  WordController.addTranslationNoun
+  authMiddleware,
+  AddDataWordsController.addTranslationNoun
 );
 //
 router.post(
   "/word_add-translation-general",
   [check("translation_general", "Learning word cannot be empty").notEmpty()],
-  WordController.addTranslationGeneral
+  authMiddleware,
+  AddDataWordsController.addTranslationGeneral
+);
+
+// CHANGE OR UPDATE
+
+router.post(
+  "/word_update-knowledge-value",
+  [
+    check("newValueKnowledge", "Learning word cannot be empty").notEmpty(),
+    check("word_id", "Learning word cannot be empty").notEmpty(),
+    authMiddleware,
+  ],
+  ChangeDataWordsController.changeKnowledgeValue
 );
 
 // OTHER
 router.get("/words", authMiddleware, WordController.getWords);
 router.get("/word/:word", WordController.getWord);
-router.get("/random-word", authMiddleware, WordController.getRandomWord);
+router.get("/random_word", authMiddleware, WordController.getRandomWord);
 router.put(
   "/word/:slug",
   [check("learning_word", "Learning word cannot be empty").notEmpty()],

@@ -62,11 +62,12 @@ export default {
     };
   },
   computed: {
-    ...mapActions(["GET_RANDOM_WORD"]),
     ...mapGetters(["RANDOM_WORD"]),
-    ...mapMutations(["CLEAR_RANDOM_WORD"]),
+    ...mapActions(["GET_RANDOM_WORD"]),
   },
   methods: {
+    ...mapMutations(["CLEAR_RANDOM_WORD"]),
+    ...mapActions(["GET_RANDOM_WORD", "CHANGE_WORD_KNOWLEDGE_VALUE"]),
     async checkWord() {
       this.v$.$touch();
       if (this.v$.$error) {
@@ -75,16 +76,26 @@ export default {
 
       if (
         this.answer &&
-        this.answer.toLowerCase() === this.RANDOM_WORD.word.toLowerCase()
+        this.answer.toLowerCase() ===
+          this.RANDOM_WORD.word.learning_word.toLowerCase()
       ) {
+        await this.CHANGE_WORD_KNOWLEDGE_VALUE({
+          word: this.RANDOM_WORD.word,
+          type: "plus",
+        });
         this.$message("It's true");
       } else {
-        this.$message(`True option is ${this.RANDOM_WORD.word}`);
+        await this.CHANGE_WORD_KNOWLEDGE_VALUE({
+          word: this.RANDOM_WORD.word,
+          type: "minus",
+        });
+        this.$message(`True option is ${this.RANDOM_WORD.word.learning_word}`);
       }
 
       this.CLEAR_RANDOM_WORD;
-      await this.$store.dispatch("GET_RANDOM_WORD");
+      await this.GET_RANDOM_WORD;
       this.answer = null;
+      this.v$.$reset();
     },
     printError($name) {
       if ($name === "required") {

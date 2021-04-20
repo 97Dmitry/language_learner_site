@@ -3,87 +3,6 @@ const tp = require("../utils/tokenParse");
 const { validationResult } = require("express-validator");
 
 class WordController {
-  async addLearningWord(request, response) {
-    try {
-      const errors = validationResult(request);
-      if (!errors.isEmpty()) {
-        return response.status(400).json(errors);
-      }
-      const user_id = tp.tokenParse(request.headers.authorization).user_id;
-      const { learning_word } = request.body;
-      const newWord = await db.query(
-        `INSERT INTO word (learning_word, user_id)
-         VALUES ($1, $2)
-         RETURNING *`,
-        [learning_word, user_id]
-      );
-      response.status(201).json(newWord.rows[0]);
-    } catch (e) {
-      console.log(e);
-      response.status(400).json({ message: "Create error" });
-    }
-  }
-
-  async addTranslationVerb(request, response) {
-    try {
-      const errors = validationResult(request);
-      if (!errors.isEmpty()) {
-        return response.status(400).json(errors);
-      }
-      const { word_id, translation_verb } = request.body;
-      const newWord = await db.query(
-        `INSERT INTO translation_verb (word_id, translation_verb)
-         VALUES ($1, $2)
-         RETURNING *`,
-        [word_id, translation_verb]
-      );
-      response.status(201).json(newWord.rows[0]);
-    } catch (e) {
-      console.log(e);
-      response.status(400).json({ message: "Create error" });
-    }
-  }
-
-  async addTranslationNoun(request, response) {
-    try {
-      const errors = validationResult(request);
-      if (!errors.isEmpty()) {
-        return response.status(400).json(errors);
-      }
-      const { word_id, translation_noun } = request.body;
-      const newWord = await db.query(
-        `INSERT INTO translation_noun (word_id, translation_noun)
-         VALUES ($1, $2)
-         RETURNING *`,
-        [word_id, translation_noun]
-      );
-      response.status(201).json(newWord.rows[0]);
-    } catch (e) {
-      console.log(e);
-      response.status(400).json({ message: "Create error" });
-    }
-  }
-
-  async addTranslationGeneral(request, response) {
-    try {
-      const errors = validationResult(request);
-      if (!errors.isEmpty()) {
-        return response.status(400).json(errors);
-      }
-      const { word_id, translation_general } = request.body;
-      const newWord = await db.query(
-        `INSERT INTO translation_general (word_id, translation_general)
-         VALUES ($1, $2)
-         RETURNING *`,
-        [word_id, translation_general]
-      );
-      response.status(201).json(newWord.rows[0]);
-    } catch (e) {
-      console.log(e);
-      response.status(400).json({ message: "Create error" });
-    }
-  }
-
   async getWords(request, response) {
     try {
       const user_id = tp.tokenParse(request.headers.authorization).user_id;
@@ -197,7 +116,7 @@ class WordController {
         [word.rows[0].id]
       );
       response.status(200).json({
-        word: word.rows[0].learning_word,
+        word: word.rows[0],
         verb: translation_verb.rows,
         noun: translation_noun.rows,
         general: translation_general.rows,
