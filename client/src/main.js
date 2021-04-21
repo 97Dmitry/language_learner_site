@@ -4,6 +4,7 @@ import router from "@/router";
 import store from "./store/index";
 import axios from "axios";
 import messagePlugin from "@/utils/message.plugin.js";
+import Loader from "@/components/App/Loader";
 import "materialize-css/dist/js/materialize.min";
 import "./registerServiceWorker";
 import "./assets/styles/styles.scss";
@@ -42,4 +43,5 @@ axios.interceptors.response.use(
 app.use(store);
 app.use(router);
 app.use(messagePlugin);
+app.component("Loader", Loader);
 app.mount("#app");

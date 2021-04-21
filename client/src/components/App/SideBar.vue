@@ -5,7 +5,9 @@
       Practice
     </div>
     <div class="sidebar__item">All my study words</div>
-    <div class="sidebar__item">Add new word</div>
+    <div class="sidebar__item" v-on:click="$router.push('/expansion')">
+      Add new word
+    </div>
     <div class="sidebar__item">Redact word</div>
     <div class="sidebar__item">Delete word</div>
   </div>

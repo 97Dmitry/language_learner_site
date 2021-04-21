@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import Header from "@/components/Header";
-import SideBar from "@/components/SideBar";
+import Header from "@/components/App/Header";
+import SideBar from "@/components/App/SideBar";
 
 export default {
   name: "MainLayout",

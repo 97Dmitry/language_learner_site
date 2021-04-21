@@ -16,6 +16,13 @@ const routes = [
   },
 
   {
+    path: "/expansion",
+    name: "ExpansionWordsList",
+    meta: { auth: true, layout: "main" },
+    component: () => import("@/views/ExpansionWordsList"),
+  },
+
+  {
     path: "/authorization",
     name: "Authorization",
     meta: { layout: "empty" },

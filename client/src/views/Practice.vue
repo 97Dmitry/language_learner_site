@@ -1,70 +1,26 @@
 <template>
   <div>
     <h1 class="center title_page">Input translation on english</h1>
-    <div class="example_table">
-      <div class="example">
-        <p style="font-weight: 700">Пример глагола на русском:</p>
-        <div v-for="verb in RANDOM_WORD.verb" :key="verb.id">
-          {{ verb.translation_verb }}
-        </div>
-      </div>
-      <div class="example">
-        <p style="font-weight: 700">Пример существительного на русском:</p>
-        <div v-for="verb in RANDOM_WORD.noun" :key="verb.id">
-          {{ verb.translation_noun }}
-        </div>
-      </div>
-      <div class="example">
-        <p style="font-weight: 700">Пример основного перевода на русском:</p>
-        <div v-for="verb in RANDOM_WORD.general" :key="verb.id">
-          {{ verb.translation_general }}
-        </div>
-      </div>
-    </div>
-    <div class="practice_input">
-      <p>Введите перевод на английском</p>
-      <div class="input-field col s6">
-        <input
-          id="answer"
-          type="text"
-          class="validate"
-          v-model="answer"
-          autocomplete="off"
-        />
-        <label for="answer">Input</label>
-        <small
-          class="helper-text invalid"
-          v-for="(error, index) of v$.answer.$errors"
-          :key="index"
-        >
-          {{ printError(error.$validator) }}</small
-        >
-      </div>
-      <button
-        class="btn waves-effect waves-light auth-submit"
-        type="submit"
-        v-on:click="checkWord"
-      >
-        Check
-        <i class="material-icons right">send</i>
-      </button>
-    </div>
+    <Loader v-if="isLoading" />
+    <Practice_InterfaceElement
+      v-else
+      v-model:wordObject="RANDOM_WORD"
+      wordObject
+      @checkAnswer="checkAnswer"
+    />
   </div>
 </template>
 
 <script>
+import Practice_InterfaceElement from "@/components/Practice_InterfaceElement";
 import { mapActions, mapGetters, mapMutations } from "vuex";
-import useVuelidate from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
 
 export default {
   name: "Practice",
-  setup() {
-    return { v$: useVuelidate() };
-  },
+  components: { Practice_InterfaceElement },
   data() {
     return {
-      answer: null,
+      isLoading: true,
     };
   },
   computed: {
@@ -73,15 +29,11 @@ export default {
   methods: {
     ...mapActions(["GET_RANDOM_WORD", "CHANGE_WORD_KNOWLEDGE_VALUE"]),
     ...mapMutations(["CLEAR_RANDOM_WORD"]),
-    async checkWord() {
-      this.v$.$touch();
-      if (this.v$.$error) {
-        return;
-      }
-
+    async checkAnswer(answer) {
+      // this.isLoading = true;
       if (
-        this.answer &&
-        this.answer.toLowerCase() ===
+        answer &&
+        answer.toLowerCase() ===
           this.RANDOM_WORD.word.learning_word.toLowerCase()
       ) {
         await this.CHANGE_WORD_KNOWLEDGE_VALUE({
@@ -96,26 +48,15 @@ export default {
         });
         this.$message(`True option is ${this.RANDOM_WORD.word.learning_word}`);
       }
-
       await this.CLEAR_RANDOM_WORD();
       await this.GET_RANDOM_WORD();
-      this.answer = null;
-      this.v$.$reset();
-    },
-    printError($name) {
-      if ($name === "required") {
-        return "Field cannot be empty";
-      }
+      // this.isLoading = false;
     },
   },
 
-  mounted() {
-    this.GET_RANDOM_WORD();
-  },
-  validations() {
-    return {
-      answer: { required },
-    };
+  async mounted() {
+    await this.GET_RANDOM_WORD();
+    this.isLoading = false;
   },
 };
 </script>
