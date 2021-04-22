@@ -16,7 +16,9 @@ export default {
     MainLayout,
     EmptyLayout,
   },
-
+  data() {
+    return {};
+  },
   computed: {
     layout() {
       return (this.$route.meta.layout || "empty") + "-layout";

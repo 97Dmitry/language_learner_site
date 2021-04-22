@@ -1,21 +1,12 @@
 const express = require("express");
+const corsMiddleware = require("./middleware/corsMiddleware");
 require("dotenv").config();
 
 const app = express();
 
 app.use(express.json());
-app.use((request, response, next) => {
-  response.setHeader("Access-Control-Allow-Origin", "*");
-  response.setHeader(
-    "Access-Control-Allow-Methods",
-    "OPTIONS, GET, POST, PUT, PATCH, DELETE"
-  );
-  response.setHeader(
-    "Access-Control-Allow-Headers",
-    "Content-Type, Authorization"
-  );
-  next();
-});
+app.use(corsMiddleware);
+
 // ROUTING
 app.use("/api", require("./routes/user.routes"));
 app.use("/api", require("./routes/word.routes"));
