@@ -2,12 +2,12 @@
   <div class="expansionWordsList">
     <h1 class="center title_page">Add new word for study</h1>
 
-    <ExpansionWordList_InterfaceElement v-on:allData="saveData" />
+    <ExpansionWordsList_InterfaceElement v-on:allData="saveData" />
   </div>
 </template>
 
 <script>
-import ExpansionWordList_InterfaceElement from "@/components/ExpansionWordList_InterfaceElement";
+import ExpansionWordsList_InterfaceElement from "@/components/ExpansionWordsList/ExpansionWordsList_InterfaceElement";
 
 export default {
   name: "ExpansionWordsList",
@@ -15,7 +15,7 @@ export default {
     return {};
   },
   components: {
-    ExpansionWordList_InterfaceElement,
+    ExpansionWordsList_InterfaceElement,
   },
   methods: {
     async saveData(learning_word, verb, noun, general) {
