@@ -6,7 +6,7 @@
       v-else
       v-model:wordObject="RANDOM_WORD"
       wordObject
-      @checkAnswer="checkAnswer"
+      v-on:checkAnswer="checkAnswer"
     />
   </div>
 </template>
