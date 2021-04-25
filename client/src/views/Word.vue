@@ -67,17 +67,6 @@ export default {
       word_id: this.$route.query.id,
     });
     this.Loading = false;
-    // new Promise((resolve) =>
-    //   resolve(
-    //     this.GET_WORD({
-    //       request_word: this.word,
-    //       word_id: this.id,
-    //     })
-    //   )
-    // ).then((result) => {
-    //   console.log(result);
-    //   this.receivedWord = result;
-    // }, (this.Loading = false));
   },
 };
 </script>
