@@ -4,7 +4,9 @@
     <div class="sidebar__item" v-on:click="$router.push('/practice')">
       Practice
     </div>
-    <div class="sidebar__item">All my study words</div>
+    <div class="sidebar__item" v-on:click="$router.push(`/all_words`)">
+      All my study words
+    </div>
     <div class="sidebar__item" v-on:click="$router.push('/expansion')">
       Add new word
     </div>

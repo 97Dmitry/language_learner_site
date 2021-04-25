@@ -23,6 +23,13 @@ const routes = [
   },
 
   {
+    path: "/all_words",
+    name: "AllWordsOfUser",
+    meta: { auth: true, layout: "main" },
+    component: () => import("@/views/AllWordsOfUser"),
+  },
+
+  {
     path: "/authorization",
     name: "Authorization",
     meta: { layout: "empty" },

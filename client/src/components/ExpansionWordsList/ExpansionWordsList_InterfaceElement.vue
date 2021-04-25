@@ -58,7 +58,9 @@ export default {
       for (const i of document.querySelectorAll(".general_input")) {
         general.push(i.value);
       }
-      this.$emit("allData", learning_word, verb, noun, general);
+      new Promise((resolve) =>
+        resolve(this.$emit("allData", learning_word, verb, noun, general))
+      ).then(document.querySelector("form").reset());
     },
   },
 };
