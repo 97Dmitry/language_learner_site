@@ -2,6 +2,7 @@ const Router = require("express");
 const router = new Router();
 const AddDataWordsController = require("../controller/words/addDataWords.controller");
 const ChangeDataWordsController = require("../controller/words/changeDataWords.controller");
+const GetWordsController = require("../controller/words/getWords.controller");
 const WordController = require("../controller/word.controller");
 const { check } = require("express-validator");
 const authMiddleware = require("../middleware/authMiddleware");
@@ -47,10 +48,14 @@ router.post(
   ChangeDataWordsController.changeKnowledgeValue
 );
 
+// GET WORDS
+
+router.get("/words", authMiddleware, GetWordsController.getWords);
+router.post("/word", authMiddleware, GetWordsController.getWord);
+router.get("/random_word", authMiddleware, GetWordsController.getRandomWord);
+
 // OTHER
-router.get("/words", authMiddleware, WordController.getWords);
-router.get("/word/:word", WordController.getWord);
-router.get("/random_word", authMiddleware, WordController.getRandomWord);
+
 router.put(
   "/word/:slug",
   [check("learning_word", "Learning word cannot be empty").notEmpty()],

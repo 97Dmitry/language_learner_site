@@ -77,12 +77,4 @@ export default {
 };
 </script>
 
-<style scoped>
-li {
-  list-style-type: none; /* Убираем маркеры */
-}
-ul {
-  margin-left: 0; /* Отступ слева в браузере IE и Opera */
-  padding-left: 0; /* Отступ слева в браузере Firefox, Safari, Chrome */
-}
-</style>
+<style scoped></style>

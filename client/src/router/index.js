@@ -30,6 +30,13 @@ const routes = [
   },
 
   {
+    path: "/word",
+    name: "Word",
+    meta: { auth: true, layout: "main" },
+    component: () => import("@/views/Word"),
+  },
+
+  {
     path: "/authorization",
     name: "Authorization",
     meta: { layout: "empty" },

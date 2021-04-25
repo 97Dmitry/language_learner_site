@@ -4,6 +4,7 @@ import axios from "axios";
 export default {
   state: {
     randomWord: [],
+    word: [],
   },
   mutations: {
     SET_RANDOM_WORD: (state, randomWord) => {
@@ -11,6 +12,9 @@ export default {
     },
     CLEAR_RANDOM_WORD: (state) => {
       state.randomWord = [];
+    },
+    SET_WORD: (state, word) => {
+      state.word = word;
     },
   },
   actions: {
@@ -90,10 +94,46 @@ export default {
         console.log(e);
       }
     },
+    async GET_WORD({ commit }, { request_word, word_id }) {
+      const server = store.getters.GET_SERVER_URL;
+      try {
+        const data = {
+          request_word,
+          word_id,
+        };
+        await axios({
+          method: "POST",
+          url: `${server}/word`,
+          data: data,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        })
+          .then((response) => {
+            console.log(response.data);
+            commit("SET_WORD", response.data);
+          })
+          .catch((error) => {
+            console.log(error.response.data);
+            commit(
+              "SET_ERROR",
+              error.response.data.message || error.response.data.errors[0].msg
+            );
+            setTimeout(() => {
+              commit("CLEAR_ERROR");
+            }, 0);
+          });
+      } catch (e) {
+        console.log(e);
+      }
+    },
   },
   getters: {
     RANDOM_WORD(state) {
       return state.randomWord;
+    },
+    WORD(state) {
+      return state.word;
     },
   },
 };
