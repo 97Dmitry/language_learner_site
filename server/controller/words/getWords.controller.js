@@ -67,7 +67,7 @@ class GetWordsController {
         [word.rows[0].id]
       );
       response.status(200).json({
-        word: word.rows[0].learning_word,
+        word: word.rows[0],
         verb: translation_verb.rows,
         noun: translation_noun.rows,
         general: translation_general.rows,

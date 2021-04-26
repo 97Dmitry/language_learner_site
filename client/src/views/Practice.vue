@@ -5,7 +5,6 @@
     <Practice_InterfaceElement
       v-else
       v-model:wordObject="RANDOM_WORD"
-      wordObject
       v-on:checkAnswer="checkAnswer"
     />
   </div>

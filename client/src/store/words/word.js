@@ -110,7 +110,6 @@ export default {
           },
         })
           .then((response) => {
-            console.log(response.data);
             commit("SET_WORD", response.data);
           })
           .catch((error) => {
