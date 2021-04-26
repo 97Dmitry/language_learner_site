@@ -4,13 +4,6 @@ const tp = require("../../utils/tokenParse");
 class DeleteWordsController {
   async deleteWord(request, response) {
     try {
-      try {
-        const user_id = tp.tokenParse(request.headers.authorization).user_id;
-      } catch (e) {
-        return response
-          .status(400)
-          .json({ message: "You aren't authorization" });
-      }
       const { delete_target, word_id } = request.data;
       const word = await db.query(
         `DELETE
@@ -29,12 +22,6 @@ class DeleteWordsController {
 
   async deleteTranslationVerb(request, response) {
     try {
-      try {
-        const user_id = tp.tokenParse(request.headers.authorization).user_id;
-      } catch (e) {
-        console.log(e);
-        response.status(400).json({ message: "You aren't authorization" });
-      }
       const { word_id, verb_id } = request.data;
       const verb = await db.query(
         `DELETE
@@ -52,12 +39,6 @@ class DeleteWordsController {
 
   async deleteTranslationNoun(request, response) {
     try {
-      try {
-        const user_id = tp.tokenParse(request.headers.authorization).user_id;
-      } catch (e) {
-        console.log(e);
-        response.status(400).json({ message: "You aren't authorization" });
-      }
       const { word_id, noun_id } = request.data;
       const noun = await db.query(
         `DELETE
@@ -75,12 +56,6 @@ class DeleteWordsController {
 
   async deleteTranslationGeneral(request, response) {
     try {
-      try {
-        const user_id = tp.tokenParse(request.headers.authorization).user_id;
-      } catch (e) {
-        console.log(e);
-        response.status(400).json({ message: "You aren't authorization" });
-      }
       const { word_id, general_id } = request.data;
       const general = await db.query(
         `DELETE

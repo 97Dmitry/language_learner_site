@@ -100,7 +100,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import Word_ModalWindow from "@/components/Word_ModalWindow";
 
 export default {
@@ -120,7 +120,8 @@ export default {
     ...mapGetters(["WORD"]),
   },
   methods: {
-    ...mapActions(["GET_WORD"]),
+    ...mapActions(["GET_WORD", "CHANGE_VERB_VALUE"]),
+    ...mapMutations(["CLEAR_WORD"]),
 
     deleteWord() {
       this.$message("Not working");
@@ -134,13 +135,23 @@ export default {
       console.log(i.id);
     },
 
-    sendData() {
+    async sendData() {
       if (this.activeEdit === "Verb") {
         // Отправить this.editID и this.$refs.input.value в store action
+        this.CHANGE_VERB_VALUE({
+          word_id: this.WORD.word.id,
+          id: this.editId,
+          new_value: this.$refs.input.value,
+        });
         // Обнулить значения
-        // this.activeEdit = null;
-        // this.editId = null;
-        // this.isModal = false;
+        this.activeEdit = null;
+        this.editId = null;
+        this.isModal = false;
+        this.CLEAR_WORD;
+        await this.GET_WORD({
+          request_word: this.$route.query.word,
+          word_id: this.$route.query.id,
+        });
       }
       if (this.activeEdit === "Noun") {
         // Отправить this.editID и this.$refs.input.value в store action

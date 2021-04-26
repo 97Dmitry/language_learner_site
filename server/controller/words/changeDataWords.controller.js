@@ -38,6 +38,23 @@ class ChangeDataWordsController {
       return response.status(500).json("Glitched update word knowledge");
     }
   }
+
+  async changeVerbValue(request, response) {
+    try {
+      const { word_id, id, new_value } = request.body;
+      const verb = await db.query(
+        `UPDATE translation_verb
+         SET translation_verb = $3
+         WHERE word_id = $1
+           AND id = $2`,
+        [word_id, id, new_value]
+      );
+      response.status(200).json(verb.rows[0]);
+    } catch (e) {
+      console.log(e);
+      response.status(400).json({ message: "Change error" });
+    }
+  }
 }
 
 module.exports = new ChangeDataWordsController();

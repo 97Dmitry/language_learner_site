@@ -44,8 +44,8 @@ router.post(
   [
     check("newValueKnowledge", "Learning word cannot be empty").notEmpty(),
     check("word_id", "Learning word cannot be empty").notEmpty(),
-    authMiddleware,
   ],
+  authMiddleware,
   ChangeDataWordsController.changeKnowledgeValue
 );
 
@@ -55,7 +55,14 @@ router.get("/words", authMiddleware, GetWordsController.getWords);
 router.post("/word", authMiddleware, GetWordsController.getWord);
 router.get("/random_word", authMiddleware, GetWordsController.getRandomWord);
 
-// OTHER
+// CHANGE
+
+router.put(
+  "/word_change-verb",
+  [check("learning_word", "Learning word cannot be empty").notEmpty()],
+  authMiddleware,
+  ChangeDataWordsController.changeVerbValue
+);
 
 router.put(
   "/word/:slug",

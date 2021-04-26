@@ -1,8 +1,8 @@
 import { createStore } from "vuex";
 import authorization from "@/store/user";
-import words from "@/store/words/words";
-import word from "@/store/words/word";
+import word from "@/store/words/getWords";
 import addWord from "@/store/words/addWord";
+import changeWords from "@/store/words/changeWords";
 
 export default createStore({
   state: {
@@ -26,8 +26,8 @@ export default createStore({
   },
   modules: {
     authorization,
-    words,
     word,
     addWord,
+    changeWords,
   },
 });

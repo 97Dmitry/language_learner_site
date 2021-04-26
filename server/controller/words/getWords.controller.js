@@ -30,13 +30,6 @@ class GetWordsController {
 
   async getWord(request, response) {
     try {
-      try {
-        const user_id = tp.tokenParse(request.headers.authorization).user_id;
-      } catch (e) {
-        return response
-          .status(400)
-          .json({ message: "You aren't authorization" });
-      }
       const user_id = tp.tokenParse(request.headers.authorization).user_id;
       const { request_word, word_id } = request.body;
       const word = await db.query(
@@ -80,13 +73,6 @@ class GetWordsController {
 
   async getRandomWord(request, response) {
     try {
-      try {
-        const user_id = tp.tokenParse(request.headers.authorization).user_id;
-      } catch (e) {
-        return response
-          .status(400)
-          .json({ message: "You aren't authorization" });
-      }
       const user_id = tp.tokenParse(request.headers.authorization).user_id;
       const word = await db.query(
         `SELECT *
