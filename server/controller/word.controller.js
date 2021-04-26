@@ -32,25 +32,6 @@ class WordController {
       response.status(400).json({ message: "Update error" });
     }
   }
-
-  async deleteWord(request, response) {
-    try {
-      const { user_id } = request.body;
-      const slug = request.params.slug;
-      const word = await db.query(
-        `
-            DELETE
-            FROM word
-            where learning_word = $1
-              AND user_id = $2`,
-        [slug, user_id]
-      );
-      response.status(200).json(word.rows[0]);
-    } catch (e) {
-      console.log(e);
-      response.status(400).json({ message: "Delete error" });
-    }
-  }
 }
 
 module.exports = new WordController();

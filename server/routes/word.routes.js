@@ -3,6 +3,7 @@ const router = new Router();
 const AddDataWordsController = require("../controller/words/addDataWords.controller");
 const ChangeDataWordsController = require("../controller/words/changeDataWords.controller");
 const GetWordsController = require("../controller/words/getWords.controller");
+const DeleteWordsController = require("../controller/words/deleteWords.controller");
 const WordController = require("../controller/word.controller");
 const { check } = require("express-validator");
 const authMiddleware = require("../middleware/authMiddleware");
@@ -61,6 +62,15 @@ router.put(
   [check("learning_word", "Learning word cannot be empty").notEmpty()],
   WordController.updateWord
 );
-router.delete("/word/:slug", WordController.deleteWord);
+
+// DELETE
+
+router.delete("/word_delete-word", DeleteWordsController.deleteWord);
+router.delete("/word_delete-verb", DeleteWordsController.deleteTranslationVerb);
+router.delete("/word_delete-noun", DeleteWordsController.deleteTranslationNoun);
+router.delete(
+  "/word_delete-general",
+  DeleteWordsController.deleteTranslationGeneral
+);
 
 module.exports = router;
