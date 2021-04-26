@@ -30,6 +30,12 @@
       style="display: flex; flex-direction: row; justify-content: space-between"
     >
       <div class="word__translations">
+        <i
+          class="material-icons"
+          style="font-size: 20px; cursor: pointer"
+          v-on:click="addNewVerb"
+          >add_box
+        </i>
         <h3>Verb translations:</h3>
         <ol v-for="i in WORD.verb" :key="i.id">
           <li>
@@ -52,6 +58,12 @@
       </div>
 
       <div class="word__translations">
+        <i
+          class="material-icons"
+          style="font-size: 20px; cursor: pointer"
+          v-on:click="addNewNoun"
+          >add_box
+        </i>
         <h3>Noun translations:</h3>
         <ol v-for="i in WORD.noun" :key="i.id">
           <li>
@@ -75,6 +87,12 @@
       </div>
 
       <div class="word__translations">
+        <i
+          class="material-icons"
+          style="font-size: 20px; cursor: pointer"
+          v-on:click="addNewGeneral"
+          >add_box
+        </i>
         <h3>General translations:</h3>
         <ol v-for="i in WORD.general" :key="i.id">
           <li>
@@ -111,8 +129,8 @@ export default {
       Loading: true,
       isModal: false,
       modalTitle: "",
-      activeEdit: null,
-      editId: null,
+      activeEvent: null,
+      idTool: null,
       receivedWord: [],
     };
   },
@@ -120,7 +138,15 @@ export default {
     ...mapGetters(["WORD"]),
   },
   methods: {
-    ...mapActions(["GET_WORD", "CHANGE_VERB_VALUE"]),
+    ...mapActions([
+      "GET_WORD",
+      "CHANGE_VERB_VALUE",
+      "CHANGE_NOUN_VALUE",
+      "CHANGE_GENERAL_VALUE",
+      "ADD_TRANSLATION_VERB",
+      "ADD_TRANSLATION_NOUN",
+      "ADD_TRANSLATION_GENERAL",
+    ]),
     ...mapMutations(["CLEAR_WORD"]),
 
     deleteWord() {
@@ -136,61 +162,151 @@ export default {
     },
 
     async sendData() {
-      if (this.activeEdit === "Verb") {
-        // Отправить this.editID и this.$refs.input.value в store action
+      if (this.activeEvent === "Verb") {
+        this.Loading = true;
+        // Отправить this.idTool и this.$refs.input.value в store action
         this.CHANGE_VERB_VALUE({
           word_id: this.WORD.word.id,
-          id: this.editId,
+          id: this.idTool,
           new_value: this.$refs.input.value,
         });
         // Обнулить значения
-        this.activeEdit = null;
-        this.editId = null;
+        this.activeEvent = null;
+        this.idTool = null;
         this.isModal = false;
-        this.CLEAR_WORD;
+        await this.CLEAR_WORD;
         await this.GET_WORD({
           request_word: this.$route.query.word,
           word_id: this.$route.query.id,
         });
+        this.Loading = false;
       }
-      if (this.activeEdit === "Noun") {
-        // Отправить this.editID и this.$refs.input.value в store action
+      if (this.activeEvent === "Noun") {
+        this.Loading = true;
+        // Отправить this.idTool и this.$refs.input.value в store action
+        this.CHANGE_NOUN_VALUE({
+          word_id: this.WORD.word.id,
+          id: this.idTool,
+          new_value: this.$refs.input.value,
+        });
         // Обнулить значения
-        // this.activeEdit = null;
-        // this.editId = null;
-        // this.isModal = false;
+        this.activeEvent = null;
+        this.idTool = null;
+        this.isModal = false;
+        await this.CLEAR_WORD;
+        await this.GET_WORD({
+          request_word: this.$route.query.word,
+          word_id: this.$route.query.id,
+        });
+        this.Loading = false;
       }
-      if (this.activeEdit === "General") {
-        // Отправить this.editID и this.$refs.input.value в store action
+      if (this.activeEvent === "General") {
+        this.Loading = true;
+        this.CLEAR_WORD;
+        // Отправить this.idTool и this.$refs.input.value в store action
+        this.CHANGE_GENERAL_VALUE({
+          word_id: this.WORD.word.id,
+          id: this.idTool,
+          new_value: this.$refs.input.value,
+        });
         // Обнулить значения
-        // this.activeEdit = null;
-        // this.editId = null;
-        // this.isModal = false;
+        this.activeEvent = null;
+        this.idTool = null;
+        this.isModal = false;
+        await this.GET_WORD({
+          request_word: this.$route.query.word,
+          word_id: this.$route.query.id,
+        });
+        this.Loading = false;
+      }
+      if (this.activeEvent === "NewVerb") {
+        this.Loading = true;
+        this.CLEAR_WORD;
+        this.ADD_TRANSLATION_VERB({
+          word_id: this.WORD.word.id,
+          translation_verb: this.$refs.input.value,
+        });
+        this.activeEvent = null;
+        this.idTool = null;
+        this.isModal = false;
+        await this.GET_WORD({
+          request_word: this.$route.query.word,
+          word_id: this.$route.query.id,
+        });
+        this.Loading = false;
+      }
+      if (this.activeEvent === "NewNoun") {
+        this.Loading = true;
+        this.CLEAR_WORD;
+        this.ADD_TRANSLATION_NOUN({
+          word_id: this.WORD.word.id,
+          translation_noun: this.$refs.input.value,
+        });
+        this.activeEvent = null;
+        this.idTool = null;
+        this.isModal = false;
+        await this.GET_WORD({
+          request_word: this.$route.query.word,
+          word_id: this.$route.query.id,
+        });
+        this.Loading = false;
+      }
+      if (this.activeEvent === "NewGeneral") {
+        this.Loading = true;
+        this.CLEAR_WORD;
+        this.ADD_TRANSLATION_GENERAL({
+          word_id: this.WORD.word.id,
+          translation_general: this.$refs.input.value,
+        });
+        this.activeEvent = null;
+        this.idTool = null;
+        this.isModal = false;
+        await this.GET_WORD({
+          request_word: this.$route.query.word,
+          word_id: this.$route.query.id,
+        });
+        this.Loading = false;
       }
     },
 
     editVerb(id, word) {
       this.modalTitle = `Input new value for verb translation: ${word}`;
-      this.activeEdit = "Verb";
-      this.editId = id;
+      this.activeEvent = "Verb";
+      this.idTool = id;
       this.isModal = true;
     },
     editNoun(id, word) {
       this.modalTitle = `Input new value for noun translation: ${word}`;
-      this.activeEdit = "Noun";
-      this.editId = id;
+      this.activeEvent = "Noun";
+      this.idTool = id;
       this.isModal = true;
     },
     editGeneral(id, word) {
       this.modalTitle = `Input new value for general translation: ${word}`;
-      this.activeEdit = "General";
-      this.editId = id;
+      this.activeEvent = "General";
+      this.idTool = id;
+      this.isModal = true;
+    },
+
+    addNewVerb() {
+      this.modalTitle = `Input new verb for: ${this.WORD.word.learning_word}`;
+      this.activeEvent = "NewVerb";
+      this.isModal = true;
+    },
+    addNewNoun() {
+      this.modalTitle = `Input new noun for: ${this.WORD.word.learning_word}`;
+      this.activeEvent = "NewNoun";
+      this.isModal = true;
+    },
+    addNewGeneral() {
+      this.modalTitle = `Input new general for: ${this.WORD.word.learning_word}`;
+      this.activeEvent = "NewGeneral";
       this.isModal = true;
     },
 
     closeModal() {
-      this.activeEdit = null;
-      this.editId = null;
+      this.activeEvent = null;
+      this.idTool = null;
       this.isModal = false;
     },
   },

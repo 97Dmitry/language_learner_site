@@ -37,7 +37,13 @@ router.post(
   AddDataWordsController.addTranslationGeneral
 );
 
-// CHANGE OR UPDATE
+// GET WORDS
+
+router.get("/words", authMiddleware, GetWordsController.getWords);
+router.post("/word", authMiddleware, GetWordsController.getWord);
+router.get("/random_word", authMiddleware, GetWordsController.getRandomWord);
+
+// CHANGE
 
 router.post(
   "/word_update-knowledge-value",
@@ -49,19 +55,25 @@ router.post(
   ChangeDataWordsController.changeKnowledgeValue
 );
 
-// GET WORDS
-
-router.get("/words", authMiddleware, GetWordsController.getWords);
-router.post("/word", authMiddleware, GetWordsController.getWord);
-router.get("/random_word", authMiddleware, GetWordsController.getRandomWord);
-
-// CHANGE
-
 router.put(
   "/word_change-verb",
-  [check("learning_word", "Learning word cannot be empty").notEmpty()],
+  [check("new_value", "Learning word cannot be empty").notEmpty()],
   authMiddleware,
   ChangeDataWordsController.changeVerbValue
+);
+
+router.put(
+  "/word_change-noun",
+  [check("new_value", "Learning word cannot be empty").notEmpty()],
+  authMiddleware,
+  ChangeDataWordsController.changeNounValue
+);
+
+router.put(
+  "/word_change-general",
+  [check("new_value", "Learning word cannot be empty").notEmpty()],
+  authMiddleware,
+  ChangeDataWordsController.changeGeneralValue
 );
 
 router.put(

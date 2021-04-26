@@ -83,6 +83,56 @@ export default {
         console.log(e);
       }
     },
+    async CHANGE_NOUN_VALUE({ commit }, { word_id, id, new_value }) {
+      try {
+        const server = store.getters.GET_SERVER_URL;
+        const data = { word_id, id, new_value };
+        await axios({
+          method: "PUT",
+          url: `${server}/word_change-noun`,
+          data: data,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }).catch((error) => {
+          console.log(error.response.data);
+          commit(
+            "SET_ERROR",
+            error.response.data.message || error.response.data.errors[0].msg
+          );
+          setTimeout(() => {
+            commit("CLEAR_ERROR");
+          }, 0);
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async CHANGE_GENERAL_VALUE({ commit }, { word_id, id, new_value }) {
+      try {
+        const server = store.getters.GET_SERVER_URL;
+        const data = { word_id, id, new_value };
+        await axios({
+          method: "PUT",
+          url: `${server}/word_change-general`,
+          data: data,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }).catch((error) => {
+          console.log(error.response.data);
+          commit(
+            "SET_ERROR",
+            error.response.data.message || error.response.data.errors[0].msg
+          );
+          setTimeout(() => {
+            commit("CLEAR_ERROR");
+          }, 0);
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    },
   },
   getters: {},
 };
