@@ -4,7 +4,7 @@ const tp = require("../../utils/tokenParse");
 class DeleteWordsController {
   async deleteWord(request, response) {
     try {
-      const { delete_target, word_id } = request.data;
+      const { delete_target, word_id } = request.body;
       const word = await db.query(
         `DELETE
          FROM word
@@ -22,7 +22,8 @@ class DeleteWordsController {
 
   async deleteTranslationVerb(request, response) {
     try {
-      const { word_id, verb_id } = request.data;
+      const { word_id, verb_id } = request.body;
+
       const verb = await db.query(
         `DELETE
          FROM translation_verb
@@ -32,14 +33,14 @@ class DeleteWordsController {
       );
       response.status(200).json(verb.rows[0]);
     } catch (e) {
-      console.log(e);
+      // console.log(e);
       response.status(400).json({ message: "Delete error" });
     }
   }
 
   async deleteTranslationNoun(request, response) {
     try {
-      const { word_id, noun_id } = request.data;
+      const { word_id, noun_id } = request.body;
       const noun = await db.query(
         `DELETE
          FROM translation_noun
@@ -56,7 +57,7 @@ class DeleteWordsController {
 
   async deleteTranslationGeneral(request, response) {
     try {
-      const { word_id, general_id } = request.data;
+      const { word_id, general_id } = request.body;
       const general = await db.query(
         `DELETE
          FROM translation_general

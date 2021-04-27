@@ -15,13 +15,13 @@
       <i
         class="material-icons"
         style="font-size: 20px; cursor: pointer"
-        v-on:click="deleteWord(WORD.word.id, WORD.word.learning_word)"
+        v-on:click="deleteWord()"
         >delete
       </i>
       <i
         class="material-icons"
         style="font-size: 20px; margin-left: 5px; cursor: pointer"
-        v-on:click="changeWord(WORD.word.id, WORD.word.learning_word)"
+        v-on:click="changeWord()"
         >edit
       </i>
     </div>
@@ -43,7 +43,7 @@
             <i
               class="material-icons"
               style="font-size: 20px; cursor: pointer"
-              v-on:click="deleteItem(i)"
+              v-on:click="deleteVerb(WORD.word.id, i.id, i.translation_verb)"
               >delete
             </i>
             <i
@@ -71,7 +71,7 @@
             <i
               class="material-icons"
               style="font-size: 20px; cursor: pointer"
-              v-on:click="deleteItem(i)"
+              v-on:click="deleteNoun(WORD.word.id, i.id, i.translation_noun)"
             >
               delete
             </i>
@@ -100,7 +100,9 @@
             <i
               class="material-icons"
               style="font-size: 20px; cursor: pointer"
-              v-on:click="deleteItem(i)"
+              v-on:click="
+                deleteGeneral(WORD.word.id, i.id, i.translation_general)
+              "
               >delete
             </i>
             <i
@@ -146,6 +148,9 @@ export default {
       "ADD_TRANSLATION_VERB",
       "ADD_TRANSLATION_NOUN",
       "ADD_TRANSLATION_GENERAL",
+      "DELETE_VERB",
+      "DELETE_NOUN",
+      "DELETE_GENERAL",
     ]),
     ...mapMutations(["CLEAR_WORD"]),
 
@@ -157,13 +162,53 @@ export default {
       this.$message("Not working");
     },
 
-    deleteItem(i) {
-      console.log(i.id);
+    async deleteVerb(word_id, verb_id, word) {
+      const answer = window.confirm(`Do you want to delete ${word}`);
+      if (answer) {
+        this.Loading = true;
+        await this.CLEAR_WORD;
+        await this.DELETE_VERB({ word_id, verb_id });
+        await this.GET_WORD({
+          request_word: this.$route.query.word,
+          word_id: this.$route.query.id,
+        });
+        this.Loading = false;
+        this.$message(`${word} was deleted`);
+      }
+    },
+    async deleteNoun(word_id, noun_id, word) {
+      const answer = window.confirm(`Do you want to delete ${word}`);
+      if (answer) {
+        this.Loading = true;
+        await this.CLEAR_WORD;
+        await this.DELETE_NOUN({ word_id, noun_id });
+        await this.GET_WORD({
+          request_word: this.$route.query.word,
+          word_id: this.$route.query.id,
+        });
+        this.Loading = false;
+        this.$message(`${word} was deleted`);
+      }
+    },
+    async deleteGeneral(word_id, general_id, word) {
+      const answer = window.confirm(`Do you want to delete ${word}`);
+      if (answer) {
+        this.Loading = true;
+        await this.CLEAR_WORD;
+        await this.DELETE_GENERAL({ word_id, general_id });
+        await this.GET_WORD({
+          request_word: this.$route.query.word,
+          word_id: this.$route.query.id,
+        });
+        this.Loading = false;
+        this.$message(`${word} was deleted`);
+      }
     },
 
     async sendData() {
       if (this.activeEvent === "Verb") {
         this.Loading = true;
+        await this.CLEAR_WORD;
         // Отправить this.idTool и this.$refs.input.value в store action
         this.CHANGE_VERB_VALUE({
           word_id: this.WORD.word.id,
@@ -174,15 +219,16 @@ export default {
         this.activeEvent = null;
         this.idTool = null;
         this.isModal = false;
-        await this.CLEAR_WORD;
         await this.GET_WORD({
           request_word: this.$route.query.word,
           word_id: this.$route.query.id,
         });
         this.Loading = false;
       }
+
       if (this.activeEvent === "Noun") {
         this.Loading = true;
+        await this.CLEAR_WORD;
         // Отправить this.idTool и this.$refs.input.value в store action
         this.CHANGE_NOUN_VALUE({
           word_id: this.WORD.word.id,
@@ -193,13 +239,13 @@ export default {
         this.activeEvent = null;
         this.idTool = null;
         this.isModal = false;
-        await this.CLEAR_WORD;
         await this.GET_WORD({
           request_word: this.$route.query.word,
           word_id: this.$route.query.id,
         });
         this.Loading = false;
       }
+
       if (this.activeEvent === "General") {
         this.Loading = true;
         this.CLEAR_WORD;
@@ -219,6 +265,7 @@ export default {
         });
         this.Loading = false;
       }
+
       if (this.activeEvent === "NewVerb") {
         this.Loading = true;
         this.CLEAR_WORD;
@@ -235,6 +282,7 @@ export default {
         });
         this.Loading = false;
       }
+
       if (this.activeEvent === "NewNoun") {
         this.Loading = true;
         this.CLEAR_WORD;
@@ -251,6 +299,7 @@ export default {
         });
         this.Loading = false;
       }
+
       if (this.activeEvent === "NewGeneral") {
         this.Loading = true;
         this.CLEAR_WORD;

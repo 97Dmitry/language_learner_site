@@ -3,6 +3,7 @@ import authorization from "@/store/user";
 import word from "@/store/words/getWords";
 import addWord from "@/store/words/addWord";
 import changeWords from "@/store/words/changeWords";
+import deleteWords from "@/store/words/deleteWords";
 
 export default createStore({
   state: {
@@ -17,7 +18,18 @@ export default createStore({
       state.error = null;
     },
   },
-  actions: {},
+  actions: {
+    LOG_AND_MESSAGE({ commit }, error) {
+      console.log(error.response.data);
+      commit(
+        "SET_ERROR",
+        error.response.data.message || error.response.data.errors[0].msg
+      );
+      setTimeout(() => {
+        commit("CLEAR_ERROR");
+      }, 0);
+    },
+  },
   getters: {
     GET_SERVER_URL: (state) => {
       return state.backendUrl;
@@ -29,5 +41,6 @@ export default createStore({
     word,
     addWord,
     changeWords,
+    deleteWords,
   },
 });
