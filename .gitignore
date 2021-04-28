@@ -1,6 +1,6 @@
 .DS_Store
-node_modules
-/dist
+*node_modules
+*dist
 .github
 
 
@@ -9,6 +9,7 @@ server/.env
 .env.local
 .env.*.local
 .firebaserc
+.env
 
 # Log files
 npm-debug.log*
