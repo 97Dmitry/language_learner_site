@@ -5,11 +5,10 @@
 
 
 # local env files
-server_Express/.env
 .env.local
 .env.*.local
 .firebaserc
-.env
+*.env
 
 # Log files
 npm-debug.log*
