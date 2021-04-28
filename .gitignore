@@ -17,6 +17,9 @@ yarn-error.log*
 pnpm-debug.log*
 firebase-debug.log
 *.cache
+logs
+*.log
+lerna-debug.log*
 
 # Editor directories and files
 .idea
@@ -27,6 +30,21 @@ firebase-debug.log
 *.njsproj
 *.sln
 *.sw?
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Tests
+/coverage
+/.nyc_output
 
 
 
