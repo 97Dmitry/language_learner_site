@@ -86,7 +86,7 @@ class UserController {
       const user = await db.query(
         `DELETE
          FROM auth_user
-         where id = $1`,
+         where user_id = $1`,
         [user_id]
       );
       response.status(200).json(user.rows[0]);
