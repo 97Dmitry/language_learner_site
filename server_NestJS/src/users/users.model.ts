@@ -32,10 +32,7 @@ export class User extends Model<User, UserCreationAttributes> {
   banned: boolean;
 
   @Column({ type: DataType.STRING, allowNull: true })
-  banReason: string;
-
-  // @HasOne(() => UserStatus)
-  // user_status: UserStatus;
+  ban_reason: string;
 
   @BelongsToMany(() => Permission, () => UserPermissions)
   permissions: Permission[];

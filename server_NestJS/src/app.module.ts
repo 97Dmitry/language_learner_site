@@ -7,7 +7,7 @@ import { User } from "./users/users.model";
 import { PermissionsModule } from "./permissions/permissions.module";
 import { Permission } from "./permissions/permissions.model";
 import { UserPermissions } from "./permissions/user-permissions.model";
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from "./auth/auth.module";
 
 @Module({
   imports: [
