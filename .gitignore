@@ -1,8 +1,14 @@
-.DS_Store
 *node_modules
 *dist
 .github
+/tmp
+/out-tsc
+# Only exists if Bazel was run
+/bazel-out
 
+# profiling files
+chrome-profiler-events*.json
+speed-measure-plugin*.json
 
 # local env files
 .env.local
@@ -41,11 +47,24 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+.history/*
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
 
 # Tests
-/coverage
 /.nyc_output
 
+# System Files
+.DS_Store
+Thumbs.db
 
 
 desktop.ini
