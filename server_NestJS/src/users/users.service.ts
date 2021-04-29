@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { Op } from "sequelize";
 import { InjectModel } from "@nestjs/sequelize";
 
 import { User } from "./users.model";
@@ -29,7 +30,9 @@ export class UsersService {
 
   async getUserByNameAndEmail(user_name: string, user_email: string) {
     const user = await this.userRepository.findOne({
-      where: { user_email, user_name },
+      where: {
+        [Op.or]: [{ user_name: user_name }, { user_email: user_email }],
+      },
       include: { all: true },
     });
     return user;
