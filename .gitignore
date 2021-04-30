@@ -1,5 +1,6 @@
 *node_modules
 *dist
+*build
 .github
 /tmp
 /out-tsc
@@ -15,6 +16,7 @@ speed-measure-plugin*.json
 .env.*.local
 .firebaserc
 *.env
+*/environment.prod.ts
 
 # Log files
 npm-debug.log*
@@ -58,6 +60,12 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+/.pnp
+.pnp.js
+.env.development.local
+.env.test.local
+.env.production.local
+
 
 # Tests
 /.nyc_output
