@@ -2,25 +2,20 @@
   <div class="allWordsOfUser">
     <h1 class="center title_page">All your study words</h1>
     <loader v-if="Loading" />
-    <div v-for="(word, index) in WORDS" :key="word.id">
-      <div class="allWordsOfUser__word" style="padding: 5px">
-        {{ index + 1 }}. {{ word.learning_word }}
-        <i
-          class="material-icons"
-          style="font-size: 20px; cursor: pointer"
-          v-on:click="openWord(word.learning_word, word.id)"
-          >open_in_browser</i
-        >
-      </div>
-    </div>
+    <AllWordsOfUser_Pagination
+      v-model:wordsList="WORDS"
+      v-on:wordData="openWord"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import AllWordsOfUser_Pagination from "@/components/AllWordsOfUser_Pagination";
 
 export default {
   name: "AllWordsOfUser",
+  components: { AllWordsOfUser_Pagination },
   data() {
     return {
       Loading: true,
