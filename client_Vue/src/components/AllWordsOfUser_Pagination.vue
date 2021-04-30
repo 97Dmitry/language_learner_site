@@ -35,7 +35,7 @@ export default {
   name: "AllWorldsOfUser_Pagination",
   data() {
     return {
-      pageNumber: 0,
+      pageNumber: this.$route.query.page - 1 || 0,
     };
   },
   props: {
@@ -65,9 +65,17 @@ export default {
   methods: {
     nextPage() {
       this.pageNumber++;
+      this.$router.replace({
+        name: "AllWordsOfUser",
+        query: { page: this.pageNumber + 1 },
+      });
     },
     prevPage() {
       this.pageNumber--;
+      this.$router.replace({
+        name: "AllWordsOfUser",
+        query: { page: this.pageNumber + 1 },
+      });
     },
     openWord(word, id) {
       this.$emit("wordData", word, id);
