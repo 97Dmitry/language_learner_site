@@ -1,8 +1,9 @@
-import { BelongsToMany, Column, DataType, Model, Table } from "sequelize-typescript";
+import { BelongsToMany, Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
 import { ApiProperty } from "@nestjs/swagger";
 
 import { Permission } from "../permissions/permissions.model";
 import { UserPermissions } from "../permissions/user-permissions.model";
+import { Post } from "../posts/posts.model";
 
 interface UserCreationAttributes {
   user_name: string;
@@ -36,4 +37,7 @@ export class User extends Model<User, UserCreationAttributes> {
 
   @BelongsToMany(() => Permission, () => UserPermissions)
   permissions: Permission[];
+
+  @HasMany(() => Post)
+  posts: Post[];
 }

@@ -8,11 +8,12 @@ import { Permission } from "../permissions/permissions.model";
 import { UserPermissions } from "../permissions/user-permissions.model";
 import { PermissionsModule } from "../permissions/permissions.module";
 import { AuthModule } from "../auth/auth.module";
+import { Post } from "../posts/posts.model";
 
 @Module({
   imports: [
     forwardRef(() => AuthModule),
-    SequelizeModule.forFeature([User, Permission, UserPermissions]),
+    SequelizeModule.forFeature([User, Permission, UserPermissions, Post]),
     PermissionsModule,
   ],
   exports: [UsersService],
