@@ -1,19 +1,19 @@
 <template>
   <div class="example_table">
     <div class="example">
-      <p style="font-weight: 700">Пример глагола на русском:</p>
+      <p>Пример глагола на русском:</p>
       <div v-for="verb in wordObject.verb" :key="verb.id">
         {{ verb.translation_verb }}
       </div>
     </div>
     <div class="example">
-      <p style="font-weight: 700">Пример существительного на русском:</p>
+      <p>Пример существительного на русском:</p>
       <div v-for="verb in wordObject.noun" :key="verb.id">
         {{ verb.translation_noun }}
       </div>
     </div>
     <div class="example">
-      <p style="font-weight: 700">Пример основного перевода на русском:</p>
+      <p>Пример основного перевода на русском:</p>
       <div v-for="verb in wordObject.general" :key="verb.id">
         {{ verb.translation_general }}
       </div>

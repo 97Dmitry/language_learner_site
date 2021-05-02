@@ -1,0 +1,72 @@
+.header {
+  width: 100%;
+  background: #343437;
+
+  border-bottom: 1px solid #0f0f0f;
+}
+
+.header-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  //justify-items: center;
+
+  width: 70%;
+  padding: 20px;
+  margin: 0 auto;
+
+  font-weight: 700;
+
+  .header-logo {
+    font-size: 40px;
+  }
+
+  .header-nav {
+    display: flex;
+    align-items: center;
+
+    &__link {
+      font-size: 20px;
+
+      margin-right: 20px;
+  }
+    &__link:last-child {
+      margin-right: 0;
+    }
+  }
+
+  .header-auth {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    font-size: 16px;
+
+    &__account a {
+      color: aqua;
+      transition: color 0.2s linear;
+
+      &:hover {
+        color: #17e21b;
+      }
+    }
+
+    &__logout {
+      & span {
+        cursor: pointer;
+
+        color: #951212;
+        transition: color 0.2s linear;
+
+        &:hover {
+          color: #ff2121;
+        }
+
+        &:active {
+          text-shadow: 0 0 4px #ff2121;
+        }
+      }
+    }
+  }
+
+}

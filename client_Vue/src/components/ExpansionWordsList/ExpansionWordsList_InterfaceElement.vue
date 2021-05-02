@@ -14,15 +14,13 @@
       </div>
     </div>
 
-    <div style="display: flex">
+    <div>
       <ExpansionWordsList_VerbTable />
       <ExpansionWordsList_NounTable />
       <ExpansionWordsList_GeneralTable />
     </div>
 
-    <button style="margin-top: 20px" class="btn" v-on:click.prevent="setData">
-      Add to study
-    </button>
+    <button class="btn" v-on:click.prevent="setData">Add to study</button>
   </form>
 </template>
 

@@ -2,11 +2,10 @@
   <div>
     <ul>
       <li v-for="(word, index) in paginatedData" :key="word.id">
-        <div class="allWordsOfUser__word" style="padding: 5px">
+        <div class="allWordsOfUser__word">
           {{ index + 1 }}. {{ word.learning_word }}
           <i
             class="material-icons"
-            style="font-size: 20px; cursor: pointer"
             v-on:click="openWord(word.learning_word, word.id)"
             >open_in_browser</i
           >

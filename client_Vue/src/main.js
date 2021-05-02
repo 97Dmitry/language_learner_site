@@ -7,7 +7,7 @@ import messagePlugin from "@/utils/message.plugin.js";
 import Loader from "@/components/App/Loader";
 import "materialize-css/dist/js/materialize.min";
 import "./registerServiceWorker";
-import "./assets/styles/styles.scss";
+import "./assets/css/styles.scss";
 
 const app = createApp(App);
 

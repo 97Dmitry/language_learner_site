@@ -1,23 +1,10 @@
 <template>
-  <div class="example_table_general" style="display: flex; margin-right: 40px">
-    <div style="display: flex; flex-direction: column">
-      <button
-        style="
-          width: 120px;
-          height: 45px;
-          margin-right: 20px;
-          margin-bottom: 10px;
-        "
-        v-on:click.prevent="addGeneralLine"
-      >
+  <div class="example_table_general">
+    <div>
+      <button v-on:click.prevent="addGeneralLine">
         Add new line for general
       </button>
-      <button
-        style="width: 120px; height: 45px; margin-right: 20px"
-        v-on:click.prevent="deleteGeneralLine"
-      >
-        Delete line
-      </button>
+      <button v-on:click.prevent="deleteGeneralLine">Delete line</button>
     </div>
     <div>
       <ul id="general_table">

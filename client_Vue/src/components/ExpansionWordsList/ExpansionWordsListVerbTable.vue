@@ -1,23 +1,8 @@
 <template>
   <div class="example_table_verb" style="display: flex; margin-right: 40px">
-    <div style="display: flex; flex-direction: column">
-      <button
-        style="
-          width: 120px;
-          height: 45px;
-          margin-right: 20px;
-          margin-bottom: 10px;
-        "
-        v-on:click.prevent="addVerbLine"
-      >
-        Add new line for verb
-      </button>
-      <button
-        style="width: 120px; height: 45px; margin-right: 20px"
-        v-on:click.prevent="deleteVerbLine"
-      >
-        Delete line
-      </button>
+    <div>
+      <button v-on:click.prevent="addVerbLine">Add new line for verb</button>
+      <button v-on:click.prevent="deleteVerbLine">Delete line</button>
     </div>
     <div>
       <ul id="verb_table">

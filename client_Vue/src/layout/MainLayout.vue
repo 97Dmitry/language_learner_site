@@ -1,7 +1,6 @@
 <template>
   <div class="main_layout">
     <Header />
-    <SideBar />
     <div class="container content">
       <slot />
     </div>
@@ -10,11 +9,10 @@
 
 <script>
 import Header from "@/components/App/Header";
-import SideBar from "@/components/App/SideBar";
 
 export default {
   name: "MainLayout",
-  components: { SideBar, Header },
+  components: { Header },
   data() {
     return {};
   },

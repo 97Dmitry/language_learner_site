@@ -1,23 +1,8 @@
 <template>
-  <div class="example_table_noun" style="display: flex; margin-right: 40px">
-    <div style="display: flex; flex-direction: column">
-      <button
-        style="
-          width: 120px;
-          height: 45px;
-          margin-right: 20px;
-          margin-bottom: 10px;
-        "
-        v-on:click.prevent="addNounLine"
-      >
-        Add new line for noun
-      </button>
-      <button
-        style="width: 120px; height: 45px; margin-right: 20px"
-        v-on:click.prevent="deleteNounLine"
-      >
-        Delete line
-      </button>
+  <div class="example_table_noun">
+    <div>
+      <button v-on:click.prevent="addNounLine">Add new line for noun</button>
+      <button v-on:click.prevent="deleteNounLine">Delete line</button>
     </div>
     <div>
       <ul id="noun_table">
