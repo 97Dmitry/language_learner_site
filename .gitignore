@@ -17,6 +17,7 @@ speed-measure-plugin*.json
 .firebaserc
 *.env
 */environment.prod.ts
+*/botConfig.js
 
 # Log files
 npm-debug.log*
