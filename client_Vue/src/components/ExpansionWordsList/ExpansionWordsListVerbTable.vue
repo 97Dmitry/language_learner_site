@@ -1,5 +1,5 @@
 <template>
-  <div class="example_table_verb" style="display: flex; margin-right: 40px">
+  <div class="example_table_verb">
     <div>
       <button v-on:click.prevent="addVerbLine">Add new line for verb</button>
       <button v-on:click.prevent="deleteVerbLine">Delete line</button>
@@ -30,7 +30,7 @@ export default {
       if (this.verbLine < 3) {
         document.getElementById("verb_table").insertAdjacentHTML(
           "afterend",
-          `<li id="verb_li_${this.verbLine}" style="list-style-type: none"><div class="input-field inline">
+          `<li id="verb_li_${this.verbLine}"><div class="input-field inline">
           <input id="verb_${this.verbLine}" type="text" class="validate verb_input"/>
           <label for="verb_${this.verbLine}">Another verb</label>
           <small class="helper-text invalid"></small>

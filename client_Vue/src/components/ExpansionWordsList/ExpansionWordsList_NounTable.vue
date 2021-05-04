@@ -30,7 +30,7 @@ export default {
       if (this.nounLine < 3) {
         document.getElementById("noun_table").insertAdjacentHTML(
           "afterend",
-          `<li id="noun_li_${this.nounLine}" style="list-style-type: none"><div class="input-field inline">
+          `<li id="noun_li_${this.nounLine}"><div class="input-field inline">
           <input id="noun_${this.nounLine}" type="text" class="validate noun_input"/>
           <label for="noun_${this.nounLine}">Another noun</label>
           <small class="helper-text invalid"></small>

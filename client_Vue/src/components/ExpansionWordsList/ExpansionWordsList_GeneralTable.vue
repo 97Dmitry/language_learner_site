@@ -32,7 +32,7 @@ export default {
       if (this.generalLine < 3) {
         document.getElementById("general_table").insertAdjacentHTML(
           "afterend",
-          `<li id="general_li_${this.generalLine}" style="list-style-type: none"><div class="input-field inline">
+          `<li id="general_li_${this.generalLine}"><div class="input-field inline">
           <input id="general_${this.generalLine}" type="text" class="validate general_input"/>
           <label for="general_${this.generalLine}">Another general</label>
           <small class="helper-text invalid"></small>

@@ -17,11 +17,11 @@ export class Post extends Model<Post, PostCreationAttributes> {
   post_id: number;
 
   @ApiProperty({ example: "Wild animals", description: "Title for post" })
-  @Column({ type: DataType.STRING, unique: true, allowNull: false })
+  @Column({ type: DataType.STRING, allowNull: false })
   title: string;
 
   @ApiProperty({ example: "Animals are wild", description: "Post's text" })
-  @Column({ type: DataType.STRING, unique: true, allowNull: false })
+  @Column({ type: DataType.STRING, allowNull: false })
   text: string;
 
   @ApiProperty({ example: "", description: "Images" })
