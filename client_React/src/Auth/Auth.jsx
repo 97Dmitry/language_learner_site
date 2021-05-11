@@ -11,10 +11,10 @@ class Auth extends PureComponent {
           <h1 className={style.authTitle}>Words learning</h1>
           <form>
             <div className={style.inputField}>
-              <input id="username" type="text" />
+              <input id="username" type="text" placeholder={"Username"}/>
             </div>
             <div className={style.inputField}>
-              <input id="password" type="password" />
+              <input id="password" type="password" placeholder={"Password"}/>
             </div>
             <div>
               <button type="submit">Login</button>
