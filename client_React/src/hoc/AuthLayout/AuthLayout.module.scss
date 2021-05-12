@@ -1,0 +1,13 @@
+.AuthLayout {
+  height: 100vh;
+  background: #2f2c2c 0 0/cover;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.AuthLayout main {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}

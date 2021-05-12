@@ -1,21 +1,16 @@
 ////// AUTHORIZATION //////
-body {
-  background-color: #2f2c2c;
-  background-size: cover;
-}
-
 .Auth {
+  margin-top: 130px;
 }
 
-
-.authCard {
+.AuthCard {
   background: #fff;
 
-  width: 40%;
-  height: 400px;
+  width: 30%;
+  min-width: 300px;
   margin: 0 auto;
 
-  margin-top: 130px;
+  //margin-top: 130px;
   border-radius: 15px;
   padding: 2%;
 
@@ -23,33 +18,60 @@ body {
   transition: box-shadow 0.5s linear;
 }
 
-.authCard:hover {
+.AuthCard:hover {
   box-shadow: 0 0 20px 0 #5b615b;
 }
 
-.authTitle {
-  font-size: 28px;
+.AuthTitle {
+  font-size: 32px;
   margin-bottom: 50px;
 }
 
-.inputField input{
-  width: 50%;
+.InputField input {
+  width: 100%;
   height: 50px;
 
   font-size: 25px;
 
+  border: 1px solid #5b615b;
+  border-radius: 5px;
+
   margin-bottom: 20px;
   padding: 0 0 0 10px;
-
-  &::placeholder {
-
-  }
 }
 
-.authSubmit {
+.InputField .uncorrect {
+  border: 2px solid #ac0404;
+}
+
+.InputField .correct {
+  border: 2px solid #ac0404;
+}
+
+.AuthSubmit {
   width: 100%
 }
 
-.helperText.invalid {
+.HelperText.invalid {
   color: #cd271b
+}
+
+.Btn {
+  margin: 0 auto;
+  width: 100%;
+
+  margin-bottom: 20px;
+
+  & button {
+    background: #02cb9c;
+
+    width: 100%;
+    height: 30px;
+
+    border-radius: 10px;
+
+    line-height: 25px;
+    text-align: center;
+    text-transform: uppercase;
+  }
 }
