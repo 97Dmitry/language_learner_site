@@ -9,9 +9,7 @@ module.exports = function (permission) {
     try {
       const token = request.headers.authorization.split(" ")[1];
       if (!token) {
-        return response
-          .status(403)
-          .json({ message: "You are not authorization" });
+        return response.status(403).json({ message: "You are not logged in" });
       }
       let right = false;
       const { permissions } = jwt.verify(token, process.env.SECRET_KEY);
@@ -25,9 +23,7 @@ module.exports = function (permission) {
       }
       next();
     } catch (e) {
-      return response
-        .status(403)
-        .json({ message: "You are not authorization" });
+      return response.status(403).json({ message: "You are not logged in" });
     }
   };
 };

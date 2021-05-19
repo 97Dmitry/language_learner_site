@@ -37,10 +37,10 @@ const routes = [
   },
 
   {
-    path: "/authorization",
-    name: "Authorization",
+    path: "/login",
+    name: "Login",
     meta: { layout: "empty" },
-    component: () => import("@/views/Authorization"),
+    component: () => import("@/views/Login"),
   },
   {
     path: "/registration",
@@ -72,7 +72,7 @@ router.beforeEach((to, from, next) => {
   const requireAuth = to.matched.some((record) => record.meta.auth);
 
   if (requireAuth && !currentUser) {
-    next("/authorization?message=login");
+    next("/login?message=login");
   } else {
     next();
   }
