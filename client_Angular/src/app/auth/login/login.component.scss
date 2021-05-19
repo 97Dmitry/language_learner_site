@@ -1,14 +1,11 @@
-////// AUTHORIZATION //////
 .auth {
   margin-top: 130px;
-  width: 100%;
-  min-width: 350px;
 }
 
 .auth-card {
   background: #fff;
 
-  width: 700px;
+  width: 500px;
 
   border-radius: 15px;
   padding: 5%;
@@ -72,5 +69,20 @@
     line-height: 25px;
     text-align: center;
     text-transform: uppercase;
+  }
+}
+
+.auth__have {
+  & span {
+    font-weight: 300;
+    margin-right: 2px;
+    color: #0f0f0f;
+  }
+  & a {
+    color: #0f0f0f;
+    transition: 0.3s;
+    &:hover {
+      color: chocolate;
+    }
   }
 }
