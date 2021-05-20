@@ -11,7 +11,7 @@ export default {
         const server = store.getters.GET_SERVER_URL;
         await axios({
           method: "POST",
-          url: `${server}/authorization`,
+          url: `${server}/login`,
           data: data,
           headers: {
             "Content-type": "application/json",
