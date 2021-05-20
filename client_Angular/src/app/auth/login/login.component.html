@@ -7,6 +7,7 @@
           id="username"
           type="text"
           placeholder="Username"
+          #username
         />
       </div>
       <div class="input-field">
@@ -14,10 +15,11 @@
           id="password"
           type="password"
           placeholder="Password"
+          #userPassword
         />
       </div>
       <div class="btn">
-        <button type="button">
+        <button type="button" (click)="login(username.value, userPassword.value); userPassword.value = ''">
           Login
         </button>
       </div>
