@@ -24,7 +24,6 @@ export class LoginService {
           localStorage.setItem("accessToken", response.tokens.accessToken);
           localStorage.setItem("refreshToken", response.tokens.refreshToken);
           localStorage.setItem("username", response.user.username);
-          console.log(response);
         },
         (error) => console.log(error)
       );
