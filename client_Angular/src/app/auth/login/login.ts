@@ -1,4 +1,16 @@
 export interface Login {
-  username: string;
-  user_password: string;
+  readonly username: string;
+  readonly user_password: string;
+}
+
+export interface UserData {
+  readonly user: {
+    readonly user_id: string;
+    readonly username: string;
+    readonly permissions: Array<string>;
+  };
+  readonly tokens: {
+    readonly accessToken: string;
+    readonly refreshToken: string;
+  };
 }

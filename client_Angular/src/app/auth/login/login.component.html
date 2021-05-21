@@ -1,6 +1,6 @@
 <div class="auth">
   <div class="auth-card">
-    <h1 class="auth-title">Words learning login</h1>
+    <h1 class="auth__title">Words learning login</h1>
     <form>
       <div class="input-field">
         <input
@@ -8,7 +8,9 @@
           type="text"
           placeholder="Username"
           #username
+          [class.uncorrect]="nameUncorrect"
         />
+        <span [class.input-field__help]="!nameUncorrect">Username's length is cannot be less then 4. Now: {{username.value.length}}</span>
       </div>
       <div class="input-field">
         <input
@@ -16,10 +18,12 @@
           type="password"
           placeholder="Password"
           #userPassword
+          [class.uncorrect]="passwordUncorrect"
         />
+        <span [class.input-field__help]="!passwordUncorrect">Password's length is cannot be less then 6. Now: {{userPassword.value.length}}</span>
       </div>
       <div class="btn">
-        <button type="button" (click)="login(username.value, userPassword.value); userPassword.value = ''">
+        <button type="button" (click)="login(username.value, userPassword.value)">
           Login
         </button>
       </div>

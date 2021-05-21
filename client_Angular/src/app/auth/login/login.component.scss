@@ -18,22 +18,30 @@
   box-shadow: 0 0 20px 0 #5b615b;
 }
 
-.auth-title {
+.auth__title {
   font-size: 32px;
   margin-bottom: 50px;
 }
 
-.input-field input {
-  width: 100%;
-  height: 50px;
-
-  font-size: 25px;
-
-  border: 1px solid #5b615b;
-  border-radius: 5px;
-
+.input-field {
   margin-bottom: 20px;
-  padding: 0 0 0 10px;
+
+  & input {
+    width: 100%;
+    height: 50px;
+
+    font-size: 25px;
+
+    border: 1px solid #5b615b;
+    border-radius: 5px;
+
+
+    padding: 0 0 0 10px;
+  }
+
+  &__help {
+    display: none;
+  }
 }
 
 .input-field .uncorrect {
