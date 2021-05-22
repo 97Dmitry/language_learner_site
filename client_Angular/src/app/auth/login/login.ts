@@ -3,7 +3,7 @@ export interface Login {
   readonly user_password: string;
 }
 
-export interface UserData {
+export interface LoginResponse {
   readonly user: {
     readonly user_id: string;
     readonly username: string;

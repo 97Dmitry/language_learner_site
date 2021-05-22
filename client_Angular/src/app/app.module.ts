@@ -10,12 +10,7 @@ import { AddTokenHeadersInterceptor } from "./api.interceptor";
 
 @NgModule({
   declarations: [AppComponent, AuthLayoutComponent, MainLayoutComponent],
-  imports: [
-    AppRoutingModule,
-    BrowserModule,
-    HttpClientModule,
-    HttpClientModule,
-  ],
+  imports: [AppRoutingModule, BrowserModule, HttpClientModule],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
