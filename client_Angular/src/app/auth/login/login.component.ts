@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 
 import { LoginService } from "./login.service";
 import { Login } from "./login";
@@ -9,24 +10,21 @@ import { Login } from "./login";
   styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent {
+  form: FormGroup | any;
   constructor(private loginService: LoginService) {}
 
-  title = "Login";
-  nameUncorrect = false;
-  passwordUncorrect = false;
-
-  ngOnInit(): void {}
-
-  login(username: string, user_password: string) {
-    username.length < 4
-      ? (this.nameUncorrect = true)
-      : (this.nameUncorrect = false);
-    user_password.length < 6
-      ? (this.passwordUncorrect = true)
-      : (this.passwordUncorrect = false);
-    if (username.length < 4 || user_password.length < 6) {
-      return;
-    }
-    this.loginService.login({ username, user_password });
+  ngOnInit(): void {
+    this.form = new FormGroup({
+      username: new FormControl(null, [
+        Validators.required,
+        Validators.minLength(3),
+      ]),
+      password: new FormControl(null, [
+        Validators.required,
+        Validators.minLength(6),
+      ]),
+    });
   }
+
+  login() {}
 }

@@ -45,19 +45,21 @@
 }
 
 .input-field .uncorrect {
-  border: 2px solid #ac0404;
+  border: 3px solid #fa0000;
 }
 
 .input-field .correct {
-  border: 2px solid #ac0404;
+  border: 3px solid #00bb13;
 }
 
-.auth-submit {
-  width: 100%
-}
-
-.helper-text.invalid {
-  color: #cd271b
+.helper-text {
+  display: inline-block;
+  padding: 10px 0 0 0;
+  font-weight: 300;
+  font-size: 14px;
+  &.invalid {
+    color: #cd271b
+  }
 }
 
 .btn {
@@ -67,6 +69,7 @@
   margin-bottom: 20px;
 
   & button {
+    color: white;
     background: #02cb9c;
 
     width: 100%;
@@ -77,6 +80,10 @@
     line-height: 25px;
     text-align: center;
     text-transform: uppercase;
+
+    &:disabled {
+      background: rgba(91, 97, 91, 0.65);
+    }
   }
 }
 

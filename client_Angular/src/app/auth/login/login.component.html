@@ -1,29 +1,62 @@
-<div class="auth">
+<section class="auth">
   <div class="auth-card">
     <h1 class="auth__title">Words learning login</h1>
-    <form>
+    <form
+      [formGroup]="form"
+      (ngSubmit)="login()"
+    >
       <div class="input-field">
         <input
           id="username"
           type="text"
+          formControlName="username"
           placeholder="Username"
-          #username
-          [class.uncorrect]="nameUncorrect"
+          [ngClass]="{
+            'uncorrect': form.get('username').invalid && form.get('username').touched,
+            'correct': form.get('username').valid
+           }"
         />
-        <span [class.input-field__help]="!nameUncorrect">Username's length is cannot be less then 4. Now: {{username.value.length}}</span>
+        <span
+          class="helper-text invalid"
+          *ngIf="form.get('username').invalid && form.get('username').touched"
+        >
+          <span *ngIf="form.get('username').errors['required']">Cannot be empty</span>
+          <span
+            *ngIf="form.get('username').errors['minlength'] &&
+            form.get('username').errors['minlength']['requiredLength']"
+          >
+            Cannot be less {{form.get('username').errors['minlength']['requiredLength']}} symbol.
+            Now: {{form.get('username').errors['minlength']['actualLength']}}
+          </span>
+        </span>
       </div>
       <div class="input-field">
         <input
           id="password"
           type="password"
+          formControlName="password"
           placeholder="Password"
-          #userPassword
-          [class.uncorrect]="passwordUncorrect"
+          [ngClass]="{
+            'uncorrect': form.get('password').invalid && form.get('password').touched,
+            'correct': form.get('password').valid
+           }"
         />
-        <span [class.input-field__help]="!passwordUncorrect">Password's length is cannot be less then 6. Now: {{userPassword.value.length}}</span>
+        <span
+          class="helper-text invalid"
+          *ngIf="form.get('password').invalid && form.get('password').touched"
+        >
+          <span *ngIf="form.get('password').errors['required']">Cannot be empty</span>
+          <span
+            *ngIf="form.get('password').errors['minlength'] &&
+            form.get('password').errors['minlength']['requiredLength']"
+          >
+            Cannot be less {{form.get('password').errors['minlength']['requiredLength']}} symbol.
+            Now: {{form.get('password').errors['minlength']['actualLength']}}
+          </span>
+        </span>
       </div>
       <div class="btn">
-        <button type="button" (click)="login(username.value, userPassword.value)">
+        <button type="submit" [disabled]="form.invalid">
           Login
         </button>
       </div>
@@ -35,4 +68,4 @@
       <a routerLink="/registration">Registration</a>
     </div>
   </div>
-</div>
+</section>
