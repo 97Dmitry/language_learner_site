@@ -47,7 +47,7 @@
         >
           <span *ngIf="form.get('email').errors['required']">Cannot be empty</span>
           <span
-            *ngIf="form.get('username').errors['email']">Uncorrect email</span>
+            *ngIf="form.get('email').errors['email']">Uncorrect email</span>
         </span>
       </div>
       <div class="input-field">
@@ -114,7 +114,7 @@
       </div>
       <div>
         <div class="btn">
-          <button type="submit" [disabled]="form.invalid && password.value !== passwordConfirmation.value">
+          <button type="submit" [disabled]="form.invalid || password.value !== passwordConfirmation.value">
             Registration
           </button>
         </div>

@@ -1,16 +1,22 @@
-import { Component } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Subscription } from "rxjs";
 
 import { RegistrationService } from "./registration.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-registration",
   templateUrl: "./registration.component.html",
   styleUrls: ["./registration.component.scss"],
 })
-export class RegistrationComponent {
+export class RegistrationComponent implements OnInit, OnDestroy {
   form: FormGroup | any;
-  constructor(private registrationService: RegistrationService) {}
+  aSub: Subscription | any;
+  constructor(
+    private registrationService: RegistrationService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -29,5 +35,27 @@ export class RegistrationComponent {
       ]),
     });
   }
-  registration() {}
+
+  ngOnDestroy() {
+    if (this.aSub) {
+      this.aSub.unsubscribe();
+    }
+  }
+
+  registration() {
+    this.aSub = this.registrationService
+      .registration({
+        username: this.form.value.username,
+        user_email: this.form.value.email,
+        user_password: this.form.value.password,
+      })
+      .subscribe({
+        next: () => {
+          this.router.navigate(["/login"]);
+        },
+        error: (error) => {
+          console.warn(error);
+        },
+      });
+  }
 }
