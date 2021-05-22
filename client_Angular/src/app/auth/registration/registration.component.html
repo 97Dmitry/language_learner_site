@@ -1,46 +1,118 @@
-<div class="auth">
-  <form class="auth-card">
+<section class="auth">
+  <div class="auth-card">
     <h1 class="auth__title">Words learning registration</h1>
-    <div class="input-field">
-      <input
-        id="username"
-        type="text"
-        placeholder="Username"
-      />
-    </div>
-    <div class="input-field">
-      <input
-        id="email"
-        type="email"
-        placeholder="Email"
-      />
-    </div>
-    <div class="input-field">
-      <input
-        id="password"
-        type="password"
-        placeholder="Password"
-      />
-    </div>
-    <div class="input-field">
-      <input
-        id="passwordConfirmation"
-        type="password"
-        placeholder="Confirmation password"
-      />
-    </div>
-    <div>
-      <div class="btn">
-        <button type="submit">
-          Registration
-        </button>
+    <form
+      [formGroup]="form"
+      (ngSubmit)="registration()"
+    >
+      <div class="input-field">
+        <input
+          id="username"
+          type="text"
+          formControlName="username"
+          placeholder="Username"
+          [ngClass]="{
+            'uncorrect': form.get('username').invalid && form.get('username').touched,
+            'correct': form.get('username').valid
+           }"
+        />
+        <span
+          class="helper-text invalid"
+          *ngIf="form.get('username').invalid && form.get('username').touched"
+        >
+          <span *ngIf="form.get('username').errors['required']">Cannot be empty</span>
+          <span
+            *ngIf="form.get('username').errors['minlength'] &&
+            form.get('username').errors['minlength']['requiredLength']"
+          >
+            Cannot be less {{form.get('username').errors['minlength']['requiredLength']}} symbol.
+            Now: {{form.get('username').errors['minlength']['actualLength']}}
+          </span>
+        </span>
       </div>
-    </div>
-    <div class="auth__have">
-      <span>
-        Do you have an account?
-      </span>
-      <a routerLink="/login">Login now!</a>
-    </div>
-  </form>
-</div>
+      <div class="input-field">
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="Email"
+          [ngClass]="{
+            'uncorrect': form.get('email').invalid && form.get('email').touched,
+            'correct': form.get('email').valid
+           }"
+        />
+        <span
+          class="helper-text invalid"
+          *ngIf="form.get('email').invalid && form.get('email').touched"
+        >
+          <span *ngIf="form.get('email').errors['required']">Cannot be empty</span>
+          <span
+            *ngIf="form.get('username').errors['email']">Uncorrect email</span>
+        </span>
+      </div>
+      <div class="input-field">
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="Password"
+          [ngClass]="{
+            'uncorrect': form.get('password').invalid && form.get('password').touched,
+            'correct': form.get('password').valid
+           }"
+        />
+        <span
+          class="helper-text invalid"
+          *ngIf="form.get('password').invalid && form.get('password').touched"
+        >
+          <span *ngIf="form.get('password').errors['required']">Cannot be empty</span>
+          <span
+            *ngIf="form.get('password').errors['minlength'] &&
+            form.get('password').errors['minlength']['requiredLength']"
+          >
+            Cannot be less {{form.get('password').errors['minlength']['requiredLength']}} symbol.
+            Now: {{form.get('password').errors['minlength']['actualLength']}}
+          </span>
+        </span>
+      </div>
+      <div class="input-field">
+        <input
+          id="passwordConfirmation"
+          type="password"
+          formControlName="passwordConfirmation"
+          placeholder="Confirmation password"
+          [ngClass]="{
+            'uncorrect': form.get('passwordConfirmation').invalid && form.get('passwordConfirmation').touched,
+            'correct': form.get('passwordConfirmation').valid
+           }"
+        />
+        <span
+          class="helper-text invalid"
+          *ngIf="form.get('passwordConfirmation').invalid && form.get('username').touched"
+        >
+          <span *ngIf="form.get('passwordConfirmation').errors['required']">Cannot be empty</span>
+          <span
+            *ngIf="form.get('passwordConfirmation').errors['minlength'] &&
+            form.get('passwordConfirmation').errors['minlength']['requiredLength']"
+          >
+            Cannot be less {{form.get('passwordConfirmation').errors['minlength']['requiredLength']}} symbol.
+            Now: {{form.get('passwordConfirmation').errors['minlength']['actualLength']}}
+          </span>
+        </span>
+      </div>
+      <div>
+        <div class="btn">
+          <button type="submit" [disabled]="form.invalid">
+            Registration
+          </button>
+        </div>
+      </div>
+      <div class="auth__have">
+        <span>
+          Do you have an account?
+        </span>
+        <a routerLink="/login">Login now!</a>
+      </div>
+    </form>
+  </div>
+</section>
