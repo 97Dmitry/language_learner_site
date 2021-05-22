@@ -12,7 +12,7 @@ import { Router } from "@angular/router";
 })
 export class RegistrationComponent implements OnInit, OnDestroy {
   form: FormGroup | any;
-  aSub: Subscription | any;
+  rSub: Subscription | any;
   constructor(
     private registrationService: RegistrationService,
     private router: Router
@@ -37,13 +37,13 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.aSub) {
-      this.aSub.unsubscribe();
+    if (this.rSub) {
+      this.rSub.unsubscribe();
     }
   }
 
   registration() {
-    this.aSub = this.registrationService
+    this.rSub = this.registrationService
       .registration({
         username: this.form.value.username,
         user_email: this.form.value.email,

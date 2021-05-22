@@ -12,7 +12,7 @@ import { LoginService } from "./login.service";
 })
 export class LoginComponent implements OnInit, OnDestroy {
   form: FormGroup | any;
-  aSub: Subscription | any;
+  lSub: Subscription | any;
   constructor(private loginService: LoginService, private router: Router) {}
 
   ngOnInit(): void {
@@ -29,13 +29,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.aSub) {
-      this.aSub.unsubscribe();
+    if (this.lSub) {
+      this.lSub.unsubscribe();
     }
   }
 
   login() {
-    this.aSub = this.loginService
+    this.lSub = this.loginService
       .login({
         username: this.form.value.username,
         user_password: this.form.value.password,
