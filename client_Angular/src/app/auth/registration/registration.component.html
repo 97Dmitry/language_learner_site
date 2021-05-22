@@ -60,6 +60,8 @@
             'uncorrect': form.get('password').invalid && form.get('password').touched,
             'correct': form.get('password').valid
            }"
+          #password
+          [value]="password"
         />
         <span
           class="helper-text invalid"
@@ -82,13 +84,16 @@
           formControlName="passwordConfirmation"
           placeholder="Confirmation password"
           [ngClass]="{
-            'uncorrect': form.get('passwordConfirmation').invalid && form.get('passwordConfirmation').touched,
-            'correct': form.get('passwordConfirmation').valid
+            'uncorrect': form.get('passwordConfirmation').invalid && form.get('passwordConfirmation').touched ||
+            password.value !== passwordConfirmation.value && form.get('passwordConfirmation').touched,
+            'correct': form.get('passwordConfirmation').valid && password.value === passwordConfirmation.value
            }"
+          #passwordConfirmation
+          [value]="passwordConfirmation"
         />
         <span
           class="helper-text invalid"
-          *ngIf="form.get('passwordConfirmation').invalid && form.get('username').touched"
+          *ngIf="form.get('passwordConfirmation').invalid && form.get('passwordConfirmation').touched"
         >
           <span *ngIf="form.get('passwordConfirmation').errors['required']">Cannot be empty</span>
           <span
@@ -99,10 +104,17 @@
             Now: {{form.get('passwordConfirmation').errors['minlength']['actualLength']}}
           </span>
         </span>
+        <br />
+        <span
+          class="helper-text invalid"
+          *ngIf="password.value !== passwordConfirmation.value && form.get('passwordConfirmation').touched"
+        >
+          Passwords have to coincidence
+        </span>
       </div>
       <div>
         <div class="btn">
-          <button type="submit" [disabled]="form.invalid">
+          <button type="submit" [disabled]="form.invalid && password.value !== passwordConfirmation.value">
             Registration
           </button>
         </div>
