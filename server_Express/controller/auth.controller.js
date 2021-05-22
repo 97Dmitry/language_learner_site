@@ -38,7 +38,7 @@ class AuthController {
         );
         return response
           .status(201)
-          .json({ message: `You were registration`, user: newUser.rows });
+          .json({ message: `You were registered`, user: newUser.rows });
       }
     } catch (e) {
       console.log(e);
