@@ -12,7 +12,10 @@ export class LoginService {
   constructor(private http: HttpClient) {}
 
   httpOptions = {
-    headers: new HttpHeaders({ "Content-Type": "application/json" }),
+    headers: new HttpHeaders({
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    }),
   };
 
   login(loginData: Login): Observable<object> {
@@ -29,6 +32,7 @@ export class LoginService {
   }
 
   logout() {
-    localStorage.clear();
+    return this.http.get("api/words");
+    // localStorage.clear();
   }
 }

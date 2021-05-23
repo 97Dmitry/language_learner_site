@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         Validators.minLength(6),
       ]),
     });
+    this.loginService.logout().subscribe();
   }
 
   ngOnDestroy() {

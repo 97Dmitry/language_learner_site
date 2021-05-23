@@ -6,7 +6,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { AuthLayoutComponent } from "./layouts/auth-layout/auth-layout.component";
 import { MainLayoutComponent } from "./layouts/main-layout/main-layout.component";
-import { AddTokenHeadersInterceptor } from "./api.interceptor";
+import { TokenHandlerInterceptor } from "./api.interceptor";
 
 @NgModule({
   declarations: [AppComponent, AuthLayoutComponent, MainLayoutComponent],
@@ -14,7 +14,7 @@ import { AddTokenHeadersInterceptor } from "./api.interceptor";
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: AddTokenHeadersInterceptor,
+      useClass: TokenHandlerInterceptor,
       multi: true,
     },
   ],
