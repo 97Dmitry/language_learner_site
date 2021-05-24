@@ -11,7 +11,9 @@ const routes: Routes = [
       {
         path: "login",
         loadChildren: () =>
-          import("./auth//login/login.module").then((m) => m.LoginModule),
+          import("./components/auth//login/login.module").then(
+            (m) => m.LoginModule
+          ),
       },
     ],
   },
@@ -22,7 +24,7 @@ const routes: Routes = [
       {
         path: "registration",
         loadChildren: () =>
-          import("./auth/registration/registration.module").then(
+          import("./components/auth/registration/registration.module").then(
             (m) => m.RegistrationModule
           ),
       },

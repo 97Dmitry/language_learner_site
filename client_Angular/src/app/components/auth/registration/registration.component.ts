@@ -3,17 +3,17 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 
-import { LoginService } from "./login.service";
+import { AuthService } from "src/app/service/auth.service";
 
 @Component({
-  selector: "app-auth",
-  templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.scss"],
+  selector: "app-registration",
+  templateUrl: "./registration.component.html",
+  styleUrls: ["../auth.component.scss"],
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class RegistrationComponent implements OnInit, OnDestroy {
   form: FormGroup | any;
-  lSub: Subscription | any;
-  constructor(private loginService: LoginService, private router: Router) {}
+  rSub: Subscription | any;
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -21,29 +21,34 @@ export class LoginComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.minLength(3),
       ]),
+      email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, [
         Validators.required,
         Validators.minLength(6),
       ]),
+      passwordConfirmation: new FormControl(null, [
+        Validators.required,
+        Validators.minLength(6),
+      ]),
     });
-    this.loginService.logout().subscribe();
   }
 
   ngOnDestroy() {
-    if (this.lSub) {
-      this.lSub.unsubscribe();
+    if (this.rSub) {
+      this.rSub.unsubscribe();
     }
   }
 
-  login() {
-    this.lSub = this.loginService
-      .login({
+  registration() {
+    this.rSub = this.authService
+      .registration({
         username: this.form.value.username,
+        user_email: this.form.value.email,
         user_password: this.form.value.password,
       })
       .subscribe({
         next: () => {
-          this.router.navigate(["/home"]);
+          this.router.navigate(["/login"]);
         },
         error: (error) => {
           console.warn(error);

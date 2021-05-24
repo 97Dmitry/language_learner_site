@@ -2,13 +2,13 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 
-import { Login, LoginResponse } from "./login";
+import { RegistrationForm, LoginForm, LoginResponse } from "../interfaces/auth";
 import { tap } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root",
 })
-export class LoginService {
+export class AuthService {
   constructor(private http: HttpClient) {}
 
   httpOptions = {
@@ -18,7 +18,15 @@ export class LoginService {
     }),
   };
 
-  login(loginData: Login): Observable<object> {
+  registration(registrationData: RegistrationForm): Observable<object> {
+    return this.http.post(
+      "api/registration",
+      registrationData,
+      this.httpOptions
+    );
+  }
+
+  login(loginData: LoginForm): Observable<object> {
     return this.http
       .post<LoginResponse>(`api/login`, loginData, this.httpOptions)
       .pipe(
@@ -32,7 +40,6 @@ export class LoginService {
   }
 
   logout() {
-    return this.http.get("api/words");
-    // localStorage.clear();
+    localStorage.clear();
   }
 }

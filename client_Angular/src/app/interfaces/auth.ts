@@ -1,4 +1,10 @@
-export interface Login {
+export interface RegistrationForm {
+  username: string;
+  user_email: string;
+  user_password: string;
+}
+
+export interface LoginForm {
   readonly username: string;
   readonly user_password: string;
 }
