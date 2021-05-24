@@ -38,7 +38,7 @@ export default {
     async logout() {
       await this.LOGOUT;
       this.$router.push({
-        name: "Authorization",
+        name: "Login",
         query: { message: "logout" },
       });
     },
