@@ -1,0 +1,25 @@
+<header class="header">
+  <div class="header-container">
+    <div class="header-logo">LL</div>
+    <div class="header-nav">
+      <a class="header-nav__link link" routerLink="/home" routerLinkActive="link_active"> Home </a>
+      <a class="header-nav__link link" routerLink="/practice" routerLinkActive="link_active">
+        Practice
+      </a>
+      <a class="header-nav__link link" routerLink="/all_words" routerLinkActive="link_active">
+        All my study words
+      </a>
+      <a class="header-nav__link link" routerLink="/expansion" routerLinkActive="link_active">
+        Add new word
+      </a>
+    </div>
+    <div class="header-auth">
+      <div class="header-auth__account">
+        Your account <a href="">{{ username }}</a>
+      </div>
+      <div class="header-auth__logout">
+        <span>Logout</span>
+      </div>
+    </div>
+  </div>
+</header>

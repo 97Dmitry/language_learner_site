@@ -1,0 +1,15 @@
+.main-layout {
+  background: #2f2c2c 0 0/cover;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  & main {
+    background: #28282A;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+}

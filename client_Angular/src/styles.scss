@@ -53,3 +53,16 @@ body {
   font-family: Rubik, sans-serif;
   font-weight: 700;
 }
+
+.link {
+  color: white;
+  transition: 0.2s linear;
+
+  &:hover {
+    color: chocolate;
+  }
+
+  &_active {
+    color: chocolate;
+  }
+}
