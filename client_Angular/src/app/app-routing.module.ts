@@ -31,6 +31,31 @@ const routes: Routes = [
     children: [
       {
         path: "home",
+        loadChildren: () =>
+          import("./components/pages/home/home.module").then(
+            (m) => m.HomeModule
+          ),
+      },
+      {
+        path: "practice",
+        loadChildren: () =>
+          import("./components/pages/practice/practice.module").then(
+            (m) => m.PracticeModule
+          ),
+      },
+      {
+        path: "all_words",
+        loadChildren: () =>
+          import("./components/pages/all-words/all-words.module").then(
+            (m) => m.AllWordsModule
+          ),
+      },
+      {
+        path: "expansion",
+        loadChildren: () =>
+          import("./components/pages/expansion/expansion.module").then(
+            (m) => m.ExpansionModule
+          ),
       },
     ],
   },
