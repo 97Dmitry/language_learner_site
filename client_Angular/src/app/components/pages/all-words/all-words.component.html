@@ -1,1 +1,8 @@
-<p>all-words works!</p>
+<section class="all-words">
+  <h1 class="all-words__title">Here is your all words:</h1>
+  <div class="all-words-list">
+    <ul *ngFor="let word of words">
+      <li class="all-words-list__item">{{ word.learning_word }}</li>
+    </ul>
+  </div>
+</section>

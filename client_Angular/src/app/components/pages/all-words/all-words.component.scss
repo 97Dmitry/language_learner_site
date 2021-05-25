@@ -1,0 +1,20 @@
+.all-words {
+  color: white;
+
+  &__title {
+    font-size: 24px;
+    font-weight: 700;
+
+    text-align: center;
+
+    margin: 25px 0;
+  }
+}
+
+.all-words-list {
+  &__item {
+    font-size: 18px;
+
+    padding: 5px;
+  }
+}
