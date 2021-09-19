@@ -32,8 +32,13 @@ export class User {
 
   //
   @ApiProperty({ example: "true", description: "Is active user?" })
-  @Column({ comment: "Is active user?", default: true })
-  isActive: boolean;
+  @Column({
+    type: "enum",
+    enum: [true, false],
+    default: true,
+    comment: "Is active user?",
+  })
+  isActive: true | false;
 
   //
   @ApiProperty({
