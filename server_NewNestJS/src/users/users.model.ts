@@ -4,8 +4,12 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToMany,
+  JoinTable,
 } from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
+
+import { Permission } from "../permissions/permissions.model";
 
 @Entity({ name: "MainUserData" })
 export class User {
@@ -57,4 +61,8 @@ export class User {
   //
   @UpdateDateColumn({ type: "timestamp with time zone" })
   updated?: Date;
+
+  @ManyToMany(() => Permission)
+  @JoinTable()
+  permissions: Permission[];
 }
