@@ -27,7 +27,9 @@ export class UsersService {
   }
 
   async getUser(id: string): Promise<User> {
-    return await this.usersRepository.findOne(id);
+    return await this.usersRepository.findOne(id, {
+      relations: ["permissions"],
+    });
   }
 
   async getAllUsers(): Promise<User[]> {
