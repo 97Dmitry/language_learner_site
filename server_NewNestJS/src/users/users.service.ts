@@ -20,8 +20,9 @@ export class UsersService {
     });
     const user = await this.usersRepository.save({
       ...userDto,
+      permissions: userPermission,
     });
-    user.permissions = userPermission;
+
     return user;
   }
 
