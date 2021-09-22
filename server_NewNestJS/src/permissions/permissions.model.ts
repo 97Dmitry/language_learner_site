@@ -43,6 +43,3 @@ export class Permission {
   @UpdateDateColumn({ type: "timestamp with time zone" })
   updated?: Date;
 }
-
-@Entity("PermissionsList")
-export class PermissionList {}

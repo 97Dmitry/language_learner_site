@@ -1,10 +1,10 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 
 import { User } from "./users.model";
+import { Permission } from "permissions/permissions.model";
 import { CreateUserDto } from "./dto/create-user.dto";
-import { Permission } from "../permissions/permissions.model";
 
 @Injectable()
 export class UsersService {
@@ -15,33 +15,43 @@ export class UsersService {
   ) {}
 
   async createUser(userDto: CreateUserDto): Promise<User> {
-    const userPermission = await this.permissionRepository.find({
-      where: { permissionName: "user" },
+    const userPermission = await this.permissionRepository.findOne({
+      where: { permissionName: "User" },
     });
-    const user = await this.usersRepository.save({
-      ...userDto,
-      permissions: userPermission,
-    });
-
-    return user;
+    const user = new User();
+    user.userEmail = userDto.userEmail;
+    user.userName = userDto.userName;
+    user.userPassword = userDto.userPassword;
+    user.permissions = [userPermission];
+    return await this.usersRepository.save(user);
   }
 
   async getUser(id: string): Promise<User> {
-    return await this.usersRepository.findOne(id, {
+    const user = await this.usersRepository.findOne(id, {
       relations: ["permissions"],
     });
+    if (user) return user;
+    throw new HttpException("User not found", HttpStatus.NOT_FOUND);
   }
 
   async getAllUsers(): Promise<User[]> {
     return await this.usersRepository.find({ relations: ["permissions"] });
   }
 
-  async addPermission(id, permissionId): Promise<void> {
-    const userPermission = await this.permissionRepository.find({
-      where: { permissionName: "user" },
+  async addPermission(userID: number, permissionName: string): Promise<User> {
+    const permission = await this.permissionRepository.findOne({
+      where: { permissionName },
     });
-    const user = await this.usersRepository.findOne(id);
-    if (user) {
+    if (!permission)
+      throw new HttpException("Permission not found", HttpStatus.NOT_FOUND);
+
+    const user = await this.usersRepository.findOne(userID, {
+      relations: ["permissions"],
+    });
+    if (!user) throw new HttpException("User not found", HttpStatus.NOT_FOUND);
+    if (user && permission) {
+      user.permissions.push(permission);
+      return await this.usersRepository.save(user);
     }
   }
 }
