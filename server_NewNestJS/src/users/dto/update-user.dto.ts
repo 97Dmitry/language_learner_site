@@ -2,6 +2,9 @@ import { ApiProperty } from "@nestjs/swagger";
 import { IsEmail, IsString, Length } from "class-validator";
 
 export class UpdateUserDto {
+  @ApiProperty({ example: "1", description: "User ID" })
+  readonly userID: number;
+
   @ApiProperty({ example: "admin", description: "Username" })
   @IsString({ message: "Must be string" })
   @Length(3, 20, { message: "Must be at lease 4 symbol and at most 20" })
