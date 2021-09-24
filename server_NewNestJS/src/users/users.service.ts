@@ -48,6 +48,10 @@ export class UsersService {
     return await this.usersRepository.save(user);
   }
 
+  async deleteUser(userID: number): Promise<any> {
+    return await this.usersRepository.delete(userID);
+  }
+
   async addPermission(userID: number, permissionName: string): Promise<User> {
     const permission = await this.permissionRepository.findOne({
       where: { permissionName },

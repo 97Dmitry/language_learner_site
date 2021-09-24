@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpException,
   HttpStatus,
@@ -14,6 +15,7 @@ import { UsersService } from "users/users.service";
 import { User } from "./users.model";
 import { AddPermissionDto } from "./dto/add-permission.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
+import { DeleteUserDto } from "../../../server_NestJS/src/users/dto/delete-user.dto";
 
 @ApiTags("Users")
 @Controller("users")
@@ -61,6 +63,13 @@ export class UsersController {
         HttpStatus.BAD_REQUEST,
       );
     });
+  }
+
+  @ApiOperation({ summary: "Delete user" })
+  @ApiResponse({ status: 201 })
+  @Delete()
+  deleteUserByID(@Body() userDto: DeleteUserDto): Promise<any> {
+    return this.usersService.deleteUser(userDto.userID);
   }
 
   @ApiOperation({ summary: "Add permission for User" })
