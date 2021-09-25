@@ -11,7 +11,10 @@ export class PermissionsService {
   async createNewPermission(
     permissionsDto: CreatePermissionDto,
   ): Promise<Permission> {
-    return await this.permissionsRepository.create({ ...permissionsDto });
+    const permission = new Permission();
+    permission.permissionName = permissionsDto.permissionName;
+    permission.permissionDescription = permissionsDto.permissionDescription;
+    return await this.permissionsRepository.create(permission);
   }
 
   async getAllPermissions(): Promise<Permission[]> {
