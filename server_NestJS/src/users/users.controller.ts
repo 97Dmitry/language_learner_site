@@ -15,7 +15,7 @@ import { UsersService } from "users/users.service";
 import { User } from "./users.model";
 import { AddPermissionDto } from "./dto/add-permission.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
-import { DeleteUserDto } from "../../../server_NestJS/src/users/dto/delete-user.dto";
+import { DeleteUserDto } from "./dto/delete-user.dto";
 
 @ApiTags("Users")
 @Controller("users")
