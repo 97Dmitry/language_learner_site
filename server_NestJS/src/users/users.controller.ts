@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Put,
 } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
@@ -33,7 +34,7 @@ export class UsersController {
   @ApiResponse({ status: 200, type: User })
   @Get("/:id")
   getUserByID(@Param("id") userID: string): Promise<User> {
-    return this.usersService.getUser(userID);
+    return this.usersService.getUser(Number(userID));
   }
 
   @ApiOperation({ summary: "Get all users" })
@@ -45,7 +46,7 @@ export class UsersController {
 
   @ApiOperation({ summary: "Update user" })
   @ApiResponse({ status: 200, type: [User] })
-  @Post("/update")
+  @Put()
   updateUser(@Body() userDto: UpdateUserDto): Promise<User> {
     return this.usersService.updateUser(userDto).catch((err) => {
       if (err.routine === "_bt_check_unique") {

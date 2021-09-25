@@ -5,10 +5,10 @@ import { UsersService } from "./users.service";
 import { UsersController } from "./users.controller";
 
 import { User } from "./users.model";
-import { Permission } from "../permissions/permissions.model";
+import { PermissionsModule } from "../permissions/permissions.module";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Permission])],
+  imports: [TypeOrmModule.forFeature([User]), PermissionsModule],
   providers: [UsersService],
   controllers: [UsersController],
 })

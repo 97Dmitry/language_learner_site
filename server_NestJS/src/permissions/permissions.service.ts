@@ -17,6 +17,12 @@ export class PermissionsService {
     return await this.permissionsRepository.create(permission);
   }
 
+  async getPermissionsByName(permissionName: string): Promise<Permission> {
+    return await this.permissionsRepository.findOne({
+      where: { permissionName: permissionName },
+    });
+  }
+
   async getAllPermissions(): Promise<Permission[]> {
     return await this.permissionsRepository.find();
   }

@@ -3,22 +3,21 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 
 import { User } from "./users.model";
-import { Permission } from "permissions/permissions.model";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
+import { PermissionsService } from "permissions/permissions.service";
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
-    @InjectRepository(Permission)
-    private permissionRepository: Repository<Permission>,
+    private permissionService: PermissionsService,
   ) {}
 
   async createUser(userDto: CreateUserDto): Promise<User> {
-    const userPermission = await this.permissionRepository.findOne({
-      where: { permissionName: "User" },
-    });
+    const userPermission = await this.permissionService.getPermissionsByName(
+      "User",
+    );
     const user = new User();
     user.userEmail = userDto.userEmail;
     user.userName = userDto.userName;
@@ -27,7 +26,7 @@ export class UsersService {
     return await this.usersRepository.save(user);
   }
 
-  async getUser(userID: string): Promise<User> {
+  async getUser(userID: number): Promise<User> {
     const user = await this.usersRepository.findOne(userID, {
       relations: ["permissions"],
     });
@@ -53,15 +52,13 @@ export class UsersService {
   }
 
   async addPermission(userID: number, permissionName: string): Promise<User> {
-    const permission = await this.permissionRepository.findOne({
-      where: { permissionName },
-    });
+    const permission = await this.permissionService.getPermissionsByName(
+      permissionName,
+    );
     if (!permission)
       throw new HttpException("Permission not found", HttpStatus.NOT_FOUND);
 
-    const user = await this.usersRepository.findOne(userID, {
-      relations: ["permissions"],
-    });
+    const user = await this.getUser(userID);
     if (!user) throw new HttpException("User not found", HttpStatus.NOT_FOUND);
     if (user && permission) {
       user.permissions.push(permission);
