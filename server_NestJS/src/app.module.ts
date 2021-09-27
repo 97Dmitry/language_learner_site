@@ -1,35 +1,32 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { TypeOrmModule } from "@nestjs/typeorm";
+import * as Joi from "joi";
 
 //MODULES
 import { UsersModule } from "users/users.module";
 import { PermissionsModule } from "permissions/permissions.module";
-// MODELS
-import { User } from "users/users.model";
-import { Permission } from "permissions/permissions.model";
+import { AuthModule } from "auth/auth.module";
+import { DatabaseModule } from "./database/database.module";
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: `.${process.env.NODE_ENV}.env`,
+      validationSchema: Joi.object({
+        POSTGRES_HOST: Joi.string().required(),
+        POSTGRES_PORT: Joi.number().required(),
+        POSTGRES_USER: Joi.string().required(),
+        POSTGRES_PASSWORD: Joi.string().required(),
+        POSTGRES_DB: Joi.string().required(),
+        PORT: Joi.number(),
+        JWT_SECRET: Joi.string().required(),
+        JWT_EXPIRATION_TIME: Joi.string().required(),
+      }),
     }),
-    TypeOrmModule.forRoot({
-      type: "postgres",
-      username: process.env.POSTGRES_USER,
-      password: process.env.POSTGRES_PASSWORD,
-      host: process.env.POSTGRES_HOST,
-      port: Number(process.env.POSTGRES_PORT),
-      database: process.env.POSTGRES_DB,
-      entities: [User, Permission],
-      synchronize: true,
-      logging: true,
-      logger: "advanced-console",
-    }),
+    DatabaseModule,
     UsersModule,
     PermissionsModule,
+    AuthModule,
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule {}

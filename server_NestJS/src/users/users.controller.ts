@@ -3,8 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  HttpException,
-  HttpStatus,
   Param,
   Post,
   Put,
@@ -34,7 +32,7 @@ export class UsersController {
   @ApiResponse({ status: 200, type: User })
   @Get("/:id")
   getUserByID(@Param("id") userID: string): Promise<User> {
-    return this.usersService.getUser(Number(userID));
+    return this.usersService.getUserByID(Number(userID));
   }
 
   @ApiOperation({ summary: "Get all users" })
@@ -48,22 +46,7 @@ export class UsersController {
   @ApiResponse({ status: 200, type: [User] })
   @Put()
   updateUser(@Body() userDto: UpdateUserDto): Promise<User> {
-    return this.usersService.updateUser(userDto).catch((err) => {
-      if (err.routine === "_bt_check_unique") {
-        throw new HttpException(
-          {
-            message: err.detail,
-          },
-          HttpStatus.CONFLICT,
-        );
-      }
-      throw new HttpException(
-        {
-          message: err.message,
-        },
-        HttpStatus.BAD_REQUEST,
-      );
-    });
+    return this.usersService.updateUser(userDto);
   }
 
   @ApiOperation({ summary: "Delete user" })
