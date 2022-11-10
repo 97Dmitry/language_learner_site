@@ -3,7 +3,7 @@ import { IsString } from "class-validator";
 
 export class AddPermissionDto {
   @ApiProperty({ example: "1", description: "User ID" })
-  readonly userID: number;
+  readonly userID: string;
 
   @ApiProperty({ example: "Admin", description: "Permission name" })
   @IsString({ message: "Must be string" })

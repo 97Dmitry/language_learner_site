@@ -1,11 +1,13 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { UsersService } from "users/users.service";
-import { JwtService } from "@nestjs/jwt";
-import { User } from "users/users.model";
-import { RegistrationDto } from "./dto/registration.dto";
-import * as bcrypt from "bcrypt";
-import { PostgresErrorCode } from "database/postgres-error-code";
 import { ConfigService } from "@nestjs/config";
+import { JwtService } from "@nestjs/jwt";
+import * as bcrypt from "bcrypt";
+import { PostgresErrorCode } from "database/constraints/postgres-error-code";
+import { UserEntity } from "users/entities/user.entity";
+import { UsersService } from "users/users.service";
+
+import { RegistrationDto } from "./dto/registration.dto";
+import { TokenPayload } from "./interfaces/tokenPayload.interface";
 
 @Injectable()
 export class AuthService {
@@ -15,32 +17,26 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  async validateUser(userName: string, userPassword: string): Promise<User> {
-    const user = await this.usersService.getUserByName(userName);
-    if (!user) {
-      throw new HttpException("Uncorrect username", HttpStatus.NOT_FOUND);
-    }
-    await this.verifyPassword(userPassword, user.userPassword);
-    return user;
-  }
-
-  login(userName: string, userID: number): { access_token: string } {
-    const payload = { userName, userID };
-    return {
-      access_token: this.jwtService.sign(payload),
-    };
-  }
-
-  async registration(
-    registrationData: RegistrationDto,
-  ): Promise<{ access_token: string }> {
-    const hashedPassword = await bcrypt.hash(registrationData.userPassword, 10);
+  async validateUser(userName: string, userPassword: string): Promise<UserEntity> {
     try {
-      const createdUser = await this.usersService.createUser({
+      const user = await this.usersService.getUserByName(userName);
+      if (!user) {
+        throw new HttpException("Uncorrect username", HttpStatus.NOT_FOUND);
+      }
+      await this.verifyPassword(userPassword, user.userPassword);
+      return user;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async registration(registrationData: RegistrationDto): Promise<UserEntity> {
+    const hashedPassword = await bcrypt.hash(registrationData.userPassword, 7);
+    try {
+      return await this.usersService.createUser({
         ...registrationData,
         userPassword: hashedPassword,
       });
-      return this.login(createdUser.userName, createdUser.userID);
     } catch (error) {
       if (error?.code === PostgresErrorCode.UniqueViolation) {
         throw new HttpException(
@@ -52,23 +48,21 @@ export class AuthService {
   }
 
   async verifyPassword(plainTextPassword: string, hashedPassword: string) {
-    const isPasswordMatching = await bcrypt.compare(
-      plainTextPassword,
-      hashedPassword,
-    );
+    const isPasswordMatching = await bcrypt.compare(plainTextPassword, hashedPassword);
     if (!isPasswordMatching) {
-      throw new HttpException(
-        "Wrong credentials provided",
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new HttpException("Wrong credentials provided", HttpStatus.BAD_REQUEST);
     }
   }
 
-  public getCookieWithJwtToken(userId: number, userName: string) {
-    const payload: TokenPayload = { userId, userName };
+  public getCookieWithJwtToken(userID: string, userName: string) {
+    const payload: TokenPayload = { userID, userName };
     const token = this.jwtService.sign(payload);
     return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get(
       "JWT_EXPIRATION_TIME",
     )}`;
+  }
+
+  public getCookieForLogOut() {
+    return "Authentication=; HttpOnly; Path=/; Max-Age=0";
   }
 }

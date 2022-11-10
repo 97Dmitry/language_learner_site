@@ -1,18 +1,17 @@
+import { ApiProperty } from "@nestjs/swagger";
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 
-import { ApiProperty } from "@nestjs/swagger";
-
-@Entity("Permissions")
-export class Permission {
+@Entity("permissions")
+export class PermissionEntity {
   @ApiProperty({ example: 1, description: "Unique permission ID" })
-  @PrimaryGeneratedColumn({ comment: "Unique permission ID" })
-  permissionID: number;
+  @PrimaryGeneratedColumn("uuid", { comment: "Unique permission ID" })
+  permissionID: string;
 
   //
   @ApiProperty({ example: "Admin", description: "Unique permission name" })

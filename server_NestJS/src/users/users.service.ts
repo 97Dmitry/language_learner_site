@@ -1,55 +1,69 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { PostgresErrorCode } from "database/constraints/postgres-error-code";
+import { PermissionsService } from "permissions/permissions.service";
 import { Repository } from "typeorm";
 
-import { User } from "./users.model";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
-import { PermissionsService } from "permissions/permissions.service";
-import { PostgresErrorCode } from "database/postgres-error-code";
+import { UserEntity } from "./entities/user.entity";
+import { UserMetaEntity } from "./entities/userMeta.entity";
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User) private usersRepository: Repository<User>,
+    @InjectRepository(UserEntity) private usersRepository: Repository<UserEntity>,
+    @InjectRepository(UserMetaEntity) private userMetaRepository: Repository<UserMetaEntity>,
     private permissionService: PermissionsService,
   ) {}
 
-  async createUser(userDto: CreateUserDto): Promise<User> {
-    const userPermission = await this.permissionService.getPermissionsByName(
-      "User",
-    );
-    const user = this.usersRepository.create(userDto);
-    user.permissions = [userPermission];
-    return await this.usersRepository.save(user);
+  async createUser(userDto: CreateUserDto): Promise<UserEntity> {
+    try {
+      const userPermission = await this.permissionService.getPermissionsByName("User");
+      const userMeat = await this.createUserMetadata();
+      const user = this.usersRepository.create(userDto);
+      user.permissions = [userPermission];
+      user.meta = userMeat;
+      return await this.usersRepository.save(user);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
-  async getUserByID(userID: number): Promise<User> {
-    const user = await this.usersRepository.findOne(userID, {
+  async createUserMetadata(): Promise<UserMetaEntity> {
+    try {
+      const meat = this.userMetaRepository.create();
+      return await this.userMetaRepository.save(meat);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async getUserByID(userID: string): Promise<UserEntity> {
+    const user = await this.usersRepository.findOne({
+      where: { userID },
       relations: ["permissions"],
     });
     if (user) return user;
     throw new HttpException("User not found", HttpStatus.NOT_FOUND);
   }
 
-  async getUserByName(userName: string): Promise<User> {
+  async getUserByName(userName: string): Promise<UserEntity> {
     const user = await this.usersRepository.findOne({
       where: { userName: userName },
+      relations: ["permissions"],
     });
 
     if (user) return user;
-    throw new HttpException(
-      `User with name: ${userName} not found`,
-      HttpStatus.NOT_FOUND,
-    );
+    throw new HttpException(`User with name: ${userName} not found`, HttpStatus.NOT_FOUND);
   }
 
-  async getAllUsers(): Promise<User[]> {
-    return await this.usersRepository.find({ relations: ["permissions"] });
+  async getAllUsers(): Promise<UserEntity[]> {
+    return await this.usersRepository.find({ relations: ["permissions", "meta"] });
   }
 
-  async updateUser(userDto: UpdateUserDto): Promise<User> {
-    const user = await this.usersRepository.findOne(userDto.userID);
+  async updateUser(userDto: UpdateUserDto): Promise<UserEntity> {
+    const user = await this.usersRepository.findOneBy({ userID: userDto.userID });
     if (!user) throw new HttpException("User not found", HttpStatus.NOT_FOUND);
     try {
       user.userPassword = userDto.userPassword || user.userPassword;
@@ -78,12 +92,9 @@ export class UsersService {
     return await this.usersRepository.delete(userID);
   }
 
-  async addPermission(userID: number, permissionName: string): Promise<User> {
-    const permission = await this.permissionService.getPermissionsByName(
-      permissionName,
-    );
-    if (!permission)
-      throw new HttpException("Permission not found", HttpStatus.NOT_FOUND);
+  async addPermission(userID: string, permissionName: string): Promise<UserEntity> {
+    const permission = await this.permissionService.getPermissionsByName(permissionName);
+    if (!permission) throw new HttpException("Permission not found", HttpStatus.NOT_FOUND);
 
     const user = await this.getUserByID(userID);
     if (!user) throw new HttpException("User not found", HttpStatus.NOT_FOUND);

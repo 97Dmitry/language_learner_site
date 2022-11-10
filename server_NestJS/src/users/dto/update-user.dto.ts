@@ -3,7 +3,7 @@ import { IsEmail, IsString, Length } from "class-validator";
 
 export class UpdateUserDto {
   @ApiProperty({ example: "1", description: "User ID" })
-  readonly userID: number;
+  readonly userID: string;
 
   @ApiProperty({ example: "admin", description: "Username" })
   @IsString({ message: "Must be string" })

@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  postgres:
+    container_name: language_learning_server_NestJS_postgres_db
+    image: postgres:latest
+    env_file:
+      - docker.env
+    volumes:
+      - postgres_language_learning_data:/var/lib/postgresql/data
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+
+#  nest:
+#    container_name: language_learning_server_NestJS
+#    build:
+#      dockerfile: ./Dockerfile
+#      target: development
+#      context: .
+#    volumes:
+#      - .:/usr/src/app
+#      - language_learning_server_NestJS:/usr/src/app/node_modules
+#    ports:
+#      - ${PORT}:${PORT}
+#      - 9229:9229
+#    command: npm run start:dev
+#    depends_on:
+#      - postgres
+#    restart: always
+#    env_file:
+#      - .env
+#    environment:
+#      - POSTGRES_HOST=postgres
+
+volumes:
+  postgres_language_learning_data:
+  language_learning_server_NestJS:
+
+networks:
+  postgres:
+    driver: bridge
+  nest:
+    driver: bridge
